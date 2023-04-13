@@ -1,0 +1,43 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+    <div class="container">
+
+            <div class="col-md-6 offset-md-3">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+
+                <div class="form-group">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.prix) }}
+                    {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prix) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.qte_stock, 'Quantité du stock') }}
+                    {{ form_widget(form.qte_stock, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.qte_stock) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.id_ctg, 'Catégorie') }}
+                    {{ form_widget(form.id_ctg, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.id_ctg) }}
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
