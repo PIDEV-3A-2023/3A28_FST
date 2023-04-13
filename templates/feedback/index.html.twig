@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<main
+	id="main">
+
+	<!-- ======= Breadcrumbs ======= -->
+	<section class="breadcrumbs">
+		<div class="container">
+			<h2 style="  color:white ">Feedbacks</h2>
+
+		</div>
+	</section>
+	<!-- End Breadcrumbs -->
+
+	<!-- ======= Blog Single Section ======= -->
+	<section >
+		<div class="container" >
+
+			<div class="row">
+
+			<div class="col-md-6 offset-md-3 ">
+
+
+					<div >
+
+						<h4 >{{ feed|length }}
+							feedbacks</h4>
+						{% for f in feed %}
+							<div id="comment-{{ f.id }}">
+								<div >
+									<div>
+										<p>{{ f.text }}</p>
+										<a class="btn btn-warning" href="{{ path('updatef', {'id': f.id}) }}">Update</a>
+										<a class="btn btn-danger" href="{{ path('deletef', {'id': f.id}) }}">Delete</a>
+
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+
+						<div >
+							<h4>Leave a feedback</h4>
+							{{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
+							<div class="row">
+								<div class="col-md-6 ">
+									{{ form_label(f.text) }}
+									{{ form_widget(f.text, {'attr': {'class': 'form-control'}}) }}
+									{{ form_errors (f.text)}}
+
+								</div>
+							</div>
+							<br>
+							<br>
+							<button type="submit" class="btn btn-primary">Post Feedback</button>
+							{{ form_end(f) }}
+						</div>
+
+					</div>
+					<!-- End blog comments -->
+
+				</div>
+				<!-- End blog entries list -->
+
+					
+			</div>
+		</div>
+	</section>
+</main>
+{% endblock %}
+

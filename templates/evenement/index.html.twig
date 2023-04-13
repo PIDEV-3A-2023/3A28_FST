@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ArtStation{% endblock %}
+
+
+{% block body %}
+
+
+<section id="services" class="services">
+
+	<div class="container" data-aos="fade-up">
+
+		<header class="section-header">
+			<h2>Events</h2>
+			<p>VOICI TOUT LES EVENTS DISPONIBLES!</p>
+		</header>
+
+		<div class="row gy-4">
+                    {% for data in list %}
+
+					<div class="col-lg-4 col-md-6 " data-aos="fade-up" data-aos-delay="200">
+
+					<div class="service-box blue">
+						<img src="assets/img/{{data.image }}" alt="" style="width: 75px; height: 75;">
+                        <h3>{{data.titre}}</h3>
+                        <p>{{data.id}}</p>
+						<p>{{data.description}}</p>
+                        <a href="{{ path('details', {'id': data.id}) }}" class="read-more">
+						<span>Read More</span>
+						<i class="bi bi-arrow-right"></i>
+						</a>
+					</div>
+			 </div>
+                {% endfor %}
+
+			
+
+		</div>
+
+	</div>
+
+
+
+</section>
+
+
+
+{% endblock %}
+
+

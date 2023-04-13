@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div class="container">
+		<div class="row">
+
+			<h3 class="mt-5 mb-5">Create Form</h3>
+			{% for message in app.flashes('notice') %}
+				<div classe="alert alert-success">
+					{{message}}
+				</div>
+			{% endfor %}
+			<div class="col-md-6 offset-md-3">
+				{{form_start(form,{'attr': {'novalidate': 'novalidate'}})}}
+
+				<div class="form-group">
+					{{form_label(form.text)}}
+					{{form_widget(form.text,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.text)}}
+
+				</div>
+				
+
+
+				<div class="form-group">
+					<button class="btn btn-info mt-2 text-white ">update</button>
+				</div>
+
+				{{form_end(form)}}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

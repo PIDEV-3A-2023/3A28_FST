@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div class="container">
+		<div class="row">
+
+			<h3 class="mt-5 mb-5">Create Form</h3>
+			{% for message in app.flashes('notice') %}
+				<div classe="alert alert-success">
+					{{message}}
+				</div>
+			{% endfor %}
+			<div class="col-md-6 offset-md-3">
+				{{form_start(form,{'attr': {'novalidate': 'novalidate'}})}}
+
+				<div class="form-group">
+					{{form_label(form.titre)}}
+					{{form_widget(form.titre,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.titre)}}
+
+				</div>
+				<div class="form-group">
+					{{form_label(form.localisation)}}
+					{{form_widget(form.localisation,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.localisation)}}
+
+				</div>
+				<div class="form-group">
+					{{form_label(form.description)}}
+					{{form_widget(form.description,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.description)}}
+
+				</div>
+				<div class="form-group">
+					{{form_label(form.dateDebut)}}
+					{{form_widget(form.dateDebut,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.dateDebut)}}
+
+				</div>
+				<div class="form-group">
+					{{form_label(form.dateFin)}}
+					{{form_widget(form.dateFin,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.dateFin)}}
+
+				</div>
+				<div class="form-group">
+					{{form_label(form.prix)}}
+					{{form_widget(form.prix,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.prix)}}
+
+				</div>
+				<div class="form-group">
+					{{form_label(form.image)}}
+					{{form_widget(form.image,{'attr':{'class':'form-control'}})}}
+				</div>
+				<div class="form-group">
+					{{form_label(form.nbPlace)}}
+					{{form_widget(form.nbPlace,{'attr':{'class':'form-control'}})}}
+					{{ form_errors (form.nbPlace)}}
+
+				</div>
+
+
+				<div class="form-group">
+					<button class="btn btn-info mt-2 text-white ">update</button>
+				</div>
+
+				{{form_end(form)}}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
