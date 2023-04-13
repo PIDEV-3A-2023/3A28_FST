@@ -17,6 +17,7 @@ class CategorieController extends AbstractController
     {
         return $this->render('categorie/index.html.twig', [
             'controller_name' => 'CategorieController',
+
         ]);
     }
 
@@ -24,7 +25,7 @@ class CategorieController extends AbstractController
      * @param Request $request
      * @Route("ajoutCategorie", name="ajoutCategorie")
      */
-    public function ajoutProduit(Request $request,EntityManagerInterface $entityManager)
+    public function ajoutCategorie(Request $request,EntityManagerInterface $entityManager)
     {
         $categorie = new Categorie();
         $form = $this->createForm(AjoutcType::class, $categorie);

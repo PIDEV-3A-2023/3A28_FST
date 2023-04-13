@@ -44,7 +44,7 @@ class GestionProduitController extends AbstractController
         ->getRepository(Produit::class)
         ->find($id);
         $form = $this->createForm(ModifproduitType::class, $produit);
-        $form->add('update', SubmitType::class) ;
+        $form->add('Modifier', SubmitType::class) ;
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         { $em = $doctrine->getManager();
