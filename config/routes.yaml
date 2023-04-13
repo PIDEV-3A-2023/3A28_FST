@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+ajout_produit:
+    path: /ajout-produit
+    controller: App\Controller\ProduitController::ajoutProduit
+    methods: [GET, POST]
