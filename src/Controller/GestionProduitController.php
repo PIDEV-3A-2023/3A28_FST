@@ -5,6 +5,7 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Produit;
 use App\Form\ModifproduitType;
+use App\Form\AjoutprodType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,4 +56,37 @@ class GestionProduitController extends AbstractController
 
 
     }
+
+
+        #[Route('/ajout/produitad', name: 'ajoutProduitad')]
+        public function ajoutProduit(Request $request, EntityManagerInterface $entityManager)
+        {
+            $produit = new Produit();
+            $form = $this->createForm(AjoutprodType::class, $produit);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $images = $form->get('image')->getData();
+                foreach ($images as $image) {
+                    if ($image instanceof UploadedFile) {
+                        $fileName = md5(uniqid()) . '.' . $image->guessExtension();
+                        $image->move(
+                            $this->getParameter('images_directory'),
+                            $fileName
+                        );
+                        $produit->setImage($fileName);
+                    }
+                }
+
+                $entityManager->persist($produit);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_gestion_produit');
+            }
+
+            return $this->render('gestion_produit/ajoutprod.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
+
 }
