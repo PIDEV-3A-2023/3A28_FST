@@ -1,0 +1,74 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+	<div
+		class="container-fluid">
+
+		<!-- Page Heading -->
+		<h1 class="h3 mb-2 text-gray-800">Gérer les statuts</h1>
+
+		<!-- DataTales Example -->
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">Statut</h6>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Titre</th>
+								<th>Contenu</th>
+								<th>Nombre de J'aime</th>
+								<th>Date d'ajout</th>
+								<th>Date de modification</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th>Nom</th>
+								<th>Titre</th>
+								<th>Contenu</th>
+								<th>Nombre de J'aime</th>
+								<th>Date d'ajout</th>
+								<th>Date de modification</th>
+							</tr>
+						</tfoot>
+						<tbody>
+							{% for s in stat %}
+
+								<tr>
+
+									<td>{{s.username}}</td>
+									<td>{{s.titre}}</td>
+									<td>{{s.contenu}}</td>
+									<td>{{s.nbrLike}}</td>
+									<td>{{s.created|date("d/m/Y")}}</td>
+									<td>{{s.updated|date("d/m/Y")}}</td>
+
+									<td>
+										<a href="{{ path('modifierStatut',{'id':s.id}) }}" class="btn btn-warning">
+											<i class="bi bi-pencil-square"></i>
+
+										</a>
+
+										<a href="{{ path('removestatut',{'id':s.id}) }}" class="btn btn-primary">
+											<i class="bi bi-trash3-fill"></i>
+										</a>
+									</td>
+								</tr>
+
+							{% endfor %}
+							
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

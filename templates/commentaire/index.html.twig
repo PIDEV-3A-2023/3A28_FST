@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+	<main
+		id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+				<h2>Forum</h2>
+
+			</div>
+		</section>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= Blog Single Section ======= -->
+		<section id="blog" class="blog">
+			<div class="container" data-aos="fade-up">
+
+				<div class="row">
+
+					<div class="col-lg-8 entries">
+
+						<article class="entry entry-single" style="text-align: center; background-color: #f3f6ca
+																																																																																																																																																																								;">
+							<div style="text-align: center;">
+								<img src="{{asset('assets/img/blog/art22.jpg')}}" alt="" style="max-width: 100%; height: auto;">
+							</div>
+							<h2 class="entry-title">
+								<a href="blog-single.html">{{stat.titre}}</a>
+							</h2>
+
+							<div class="entry-meta">
+								<ul>
+									<li class="d-flex align-items-center">
+										<i class="bi bi-person"></i>
+										<a href="blog-single.html">{{stat.username}}</a>
+									</li>
+									<li class="d-flex align-items-center">
+										<i class="bi bi-clock"></i>
+										<a href="blog-single.html">
+											<time datetime="2020-01-01">{{stat.created|date('Y-m-d')}}</time>
+										</a>
+									</li>
+									<li class="d-flex align-items-center">
+										<i class="bi bi-chat-dots"></i>
+										<a href="blog-single.html">{{com|length()}}</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="entry-content">
+								<p>
+									{{stat.contenu}}
+								</p>
+							</div>
+
+
+						</article>
+						<!-- End blog entry -->
+
+						<!-- End blog author bio -->
+
+						<div class="blog-comments">
+
+							<h4 class="comments-count">{{com|length()}}
+								comments
+							</h4>
+							{% for c in com %}
+
+								<div id="comment-1" class="comment">
+									<div class="d-flex">
+										<div class="comment-img"><img src="{{asset('assets/img/blog/userART.png')}}" alt=""></div>
+										<div>
+											<h5>
+												<a href="">{{c.username}}</a>
+												<a href="{{path('modifier_cmt',{'id':c.id})}}" class="reply">
+													<i class="bi bi-pencil-square"></i>
+												</a>
+												<a href="{{path('supprimer_cmt',{'id':c.id})}}" class="reply">
+													<i class="bi bi-trash3-fill"></i>
+												</a>
+											</h5>
+											<time datetime="2020-01-01">{{c.dateajout|date('Y-m-d')}}</time>
+											<p>
+												{{c.description}}
+											</p>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+							<!-- End comment #1 -->
+
+							<!-- End comment #4 -->
+
+							<div class="reply-form">
+								<h4>Leave a Comment</h4>
+
+								{{ form_start(f, {'attr':{'novalidate':'novalidate'}}) }}
+
+								<div class="row">
+									<div class="col-md-6 form-group">
+										{{ form_label(f.username)}}
+										{{ form_widget(f.username,{'attr':{'class':'form-control'}})}}
+									</div>
+									<div class="col-md-6 form-group">
+										{{ form_label(f.description)}}
+										{{ form_widget(f.description,{'attr':{'class':'form-control'}})}}
+										{{ form_errors(f.description, {'attr': {'class': 'text-danger','placeholder': 'titre'}}) }}
+
+									</div>
+								</div>
+
+
+								<button type="submit" class="btn btn-primary">Commenter
+									<i class="bi bi-plus-square-fill"></i>
+								</button>
+
+								{{ form_end(f) }}
+
+							</div>
+
+						</div>
+						<!-- End blog comments -->
+
+					</div>
+					<!-- End blog entries list -->
+
+					<div class="col-lg-4">
+
+						<div class="sidebar">
+
+							<h3 class="sidebar-title">Search</h3>
+							<div class="sidebar-item search-form">
+								<form action="">
+									<input type="text">
+									<button type="submit">
+										<i class="bi bi-search"></i>
+									</button>
+								</form>
+							</div>
+							<!-- End sidebar search formn-->
+
+							<h3 class="sidebar-title">Statuts</h3>
+							<div class="sidebar-item categories">
+								<ul>
+									<li><a href="#">Musique<span>(25)</span></a></li>
+									<li><a href="#">Poterie<span>(12)</span></a></li>
+									<li><a href="#">Danse<span>(5)</span></a></li>
+									<li><a href="#">Peinture<span>(22)</span></a></li>
+									<li><a href="#">Street Art<span>(8)</span></a></li>
+									<li><a href="#">Educaion<span>(14)</span></a></li>
+								</ul>
+							</div>
+							<!-- End sidebar categories-->
+
+							<h3 class="sidebar-title">Recent Posts</h3>
+							<div class="sidebar-item recent-posts">
+								<div class="post-item clearfix">
+									<img src="assets/img/blog/blog-recent-1.jpg" alt="">
+									<h4>
+										<a href="blog-single.html">xxxxxxxxxxxx</a>
+									</h4>
+									<time datetime="2020-01-01">Jan 1, 2020</time>
+								</div>
+
+								<div class="post-item clearfix">
+									<img src="assets/img/blog/blog-recent-2.jpg" alt="">
+									<h4>
+										<a href="blog-single.html">yyyyyy</a>
+									</h4>
+									<time datetime="2020-01-01">Jan 5, 2023</time>
+								</div>
+
+
+							</div>
+							<!-- End sidebar recent posts-->
+
+
+						</div>
+						<!-- End sidebar -->
+
+					</div>
+					<!-- End blog sidebar -->
+
+				</div>
+
+			</div>
+		</section>
+		<!-- End Blog Single Section -->
+
+	</main>
+
+{% endblock %}
