@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategorieRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,6 +17,7 @@ class Categorie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message :"le nom du categorie est obligatoire")]
     private ?string $nom_ctg = null;
 
     #[ORM\OneToMany(mappedBy: 'id_ctg', targetEntity: Produit::class)]
