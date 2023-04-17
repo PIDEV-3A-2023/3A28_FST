@@ -39,28 +39,38 @@ class StatutRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Statut[] Returns an array of Statut objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Statut
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+
+
+    // public function findByStat($search)
+    // {
+    //     return $this->createQueryBuilder('s')
+    //         ->andWhere('s.contenu LIKE :mot OR s.titre LIKE :mot')
+    //         ->setParameter('mot', '%' . $search . '%')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+    //    /**
+    //     * @return Statut[] Returns an array of Statut objects
+    //     */
+    public function findBytype($value): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.type = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTitreOrContenu($search)
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.titre LIKE :mot OR f.contenu LIKE :mot')
+            ->setParameter('mot', '%' . $search . '%')
+
+            ->getQuery()
+            ->getResult();
+    }
 }

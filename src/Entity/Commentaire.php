@@ -26,8 +26,8 @@ class Commentaire
         message: "Le commentaire ne doit pas etre vide"
     )]
     #[Assert\Length(
-        min: 5,
-        minMessage: "doit contenir min 5 caracteres",
+        min: 3,
+        minMessage: "doit contenir au minimum 3 caracteres",
     )]
     #[ORM\Column(length: 255)]
     private ?string $description = null;

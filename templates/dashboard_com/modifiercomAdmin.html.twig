@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseBack.html.twig' %}
 {% block title %}{% endblock %}
 {% block body %}
 
@@ -8,7 +8,7 @@
 
 			<header class="section-header">
 				<p>
-					Modifiez votre statut  !
+					Modifiez votre Commentaire  !
 				</p>
 			</header>
 
@@ -26,25 +26,17 @@
 						</div>
 
 						<div class="col-md-6 ">
-							{{ form_label(f.titre)}}
-							{{ form_widget(f.titre,{'attr':{'class':'form-control'}})}}
-							{{ form_errors(f.titre, {'attr': {'class': 'text-danger','placeholder': 'titre'}}) }}
+							{{ form_label(f.description)}}
+							{{ form_widget(f.description,{'attr':{'class':'form-control'}})}}
+							{{ form_errors(f.description, {'attr': {'class': 'text-danger','placeholder': 'titre'}}) }}
 
 						</div>
 
-						<div class="col-md-12">
-							{{ form_label(f.contenu)}}
-							{{ form_widget(f.contenu,{'attr':{'class':'form-control'}})}}
-							{{ form_errors(f.contenu, {'attr': {'class': 'text-danger','placeholder': 'titre'}}) }}
-
-						</div>
-						
 
 						<div class="col-md-12 text-center">
 							<button type="submit">Modifier
 								<i class="bi bi-pencil-square"></i>
 							</button>
-
 						</div>
 
 					</div>

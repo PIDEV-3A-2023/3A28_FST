@@ -54,7 +54,6 @@ class CommentaireController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
-            $commentaire->setDateAjout(new \DateTime("now"));
             $em->flush();
             return $this->redirectToRoute('showcommentaire', ['id' => $commentaire->getIdS()->getId()]);
         }

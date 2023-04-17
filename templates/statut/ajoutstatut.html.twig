@@ -29,14 +29,23 @@
 						<div class="col-md-6 ">
 							{{ form_label(f.titre)}}
 							{{ form_widget(f.titre,{'attr':{'class':'form-control'}})}}
-							{{ form_errors(f.titre, {'attr': {'class': 'text-danger','placeholder': 'titre'}}) }}
+							{{ form_errors(f.titre, {'attr': {'class': 'text-danger','placeholder': ''}}) }}
 
 						</div>
 
 						<div class="col-md-12">
 							{{ form_label(f.contenu)}}
 							{{ form_widget(f.contenu,{'attr':{'class':'form-control'}})}}
-							{{ form_errors(f.contenu, {'attr': {'class': 'text-danger','placeholder': 'titre'}}) }}
+							{{ form_errors(f.contenu, {'attr': {'class': 'text-danger','placeholder': ''}}) }}
+
+						</div>
+						<div class="col-md-12">
+							{{ form_label(f.type)}}
+							{{ form_widget(f.type,{'attr':{'class':'form-control'}})}}
+
+						</div>
+						<div class="col-md-12">
+							{{ form_widget(f.image,{'attr':{'class':'form-control'}})}}
 
 						</div>
 

@@ -1,0 +1,141 @@
+<div class="row">
+
+	<div class="col-lg-8 entries">
+		{% for s in stat %}
+
+			<article class="entry" style="text-align: center; background-color: #eff1d4
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													;">
+
+				<div style="">
+					<a><img src="{{asset('uploads/'~ s.image)}}" height="300" width="680"></a>
+				</div>
+
+
+				<h2 class="entry-title">
+					<a href="blog-single.html">{{s.titre}}</a>
+				</h2>
+
+				<div class="entry-meta">
+					<ul>
+						<li class="d-flex align-items-center">
+							<i class="bi bi-person"></i>
+							<a href="blog-single.html">{{s.username}}</a>
+						</li>
+						<li class="d-flex align-items-center">
+							<i class="bi bi-clock"></i>
+							<a href="blog-single.html">
+								<time datetime="2020-01-01">{{s.created|date('d-m-Y')}}</time>
+							</a>
+						</li>
+						<li class="d-flex align-items-center">
+							<i class="bi bi-chat-square-heart"></i>
+							<a href="blog-single.html">{{s.nbrLike}}</a>
+						</li>
+
+
+					</ul>
+				</div>
+
+				<div class="entry-content">
+					<p>
+						{{s.contenu}}
+					</p>
+
+					<li>
+						<a href="{{path('likes',{'id':s.id})}}">{{s.nbrLike}}
+							<i class="fas fa-heart"></i>
+						</a>
+					</li>
+					<div class="read-more mx-2">
+						<a href="{{path('showcommentaire',{'id':s.id})}}">Lire Plus</a>
+					</div>
+					<div class="d-flex justify-content-center">
+
+						<div class="read-more mx-2">
+							<a href="{{path('removestatut',{'id':s.id})}}">
+								<i class="bi bi-trash3-fill"></i>
+							</a>
+						</div>
+						<div class="read-more mx-2">
+							<a href="{{path('updatestatut',{'id':s.id})}}">
+								<i class="bi bi-pencil-square"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+
+
+			</article>
+		{% endfor %}
+		<!-- End blog entry -->
+		<!-- Pagination -->
+
+
+	</div>
+	<div class="col-lg-4">
+
+		<div class="sidebar">
+
+			<br>
+			<!-- End sidebar search formn-->
+			<h3 class="sidebar-title">Exprimez-vous !
+				<a class="read-more" href="{{path('addstatut')}}">
+					<i class="bi bi-plus-square-fill"></i>
+				</a>
+			</h3>
+
+			<br>
+
+			<h3 class="sidebar-title">Explorez les différents types de sujets</h3>
+
+
+			<div class="sidebar-item categories">
+				<ul>
+					<li><ahref="{{path('filtretype',{'type':'Poterie'})}}"><span>Poterie</span></a></li>
+
+				</ul>
+			</div>
+			<div class="sidebar-item categories">
+				<ul>
+					<li><ahref="{{path('filtretype',{'type':'Musique'})}}"><span>Musique</span></a></li>
+
+				</ul>
+			</div>
+			<div class="sidebar-item categories">
+				<ul>
+					<li><ahref="{{path('filtretype',{'type':'Sculpture'})}}"><span>Sculpture</span></a></li>
+
+				</ul>
+			</div>
+			<div class="sidebar-item categories">
+				<ul>
+					<li><ahref="{{path('filtretype',{'type':'StreetArt'})}}"><span>StreetArt</span></a></li>
+
+				</ul>
+			</div>
+			<div class="sidebar-item categories">
+				<ul>
+					<li><ahref="{{path('filtretype',{'type':'Peinture'})}}"><span>Peinture</span></a></li>
+
+				</ul>
+			</div>
+
+
+			<h3 class="sidebar-title">Recent Posts</h3>
+			<div class="sidebar-item recent-posts">
+				<div class="post-item clearfix">
+					<img src="assets/img/blog/blog-recent-1.jpg" alt="">
+					<h4>
+						<a href="blog-single.html">xxx</a>
+					</h4>
+					<time datetime="2020-01-01">Jan 1, 2020</time>
+				</div>
+
+
+			</div>
+
+		</div>
+		<!-- End sidebar -->
+
+	</div>
+</div>

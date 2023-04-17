@@ -20,7 +20,7 @@ class Statut
     private ?string $username = null;
 
     #[Assert\NotBlank(
-        message: 'sujet doit être non vide'
+        message: 'titre doit être non vide'
     )]
     #[Assert\Regex(
         pattern: '/\d/',
@@ -31,7 +31,7 @@ class Statut
     private ?string $titre = null;
 
     #[Assert\NotBlank(
-        message: 'statut doit etre non vide',
+        message: 'contenu statut doit etre non vide',
     )]
     #[ORM\Column(length: 255)]
     private ?string $contenu = null;
@@ -44,6 +44,12 @@ class Statut
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $type = null;
 
     public function getId(): ?int
     {
@@ -118,6 +124,30 @@ class Statut
     public function setUpdated(?\DateTimeInterface $updated): self
     {
         $this->updated = $updated;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

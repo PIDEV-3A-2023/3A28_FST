@@ -1,6 +1,7 @@
 {% extends 'baseBack.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Commentaires
+{% endblock %}
 
 {% block body %}
 	<div
@@ -20,49 +21,39 @@
 						<thead>
 							<tr>
 								<th>Nom</th>
-								<th>Titre</th>
-								<th>Contenu</th>
-								<th>Nombre de J'aime</th>
+								<th>commentaire</th>
 								<th>Date d'ajout</th>
-								<th>Date de modification</th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
 								<th>Nom</th>
-								<th>Titre</th>
-								<th>Contenu</th>
-								<th>Nombre de J'aime</th>
+								<th>commentaire</th>
 								<th>Date d'ajout</th>
-								<th>Date de modification</th>
 							</tr>
 						</tfoot>
 						<tbody>
-							{% for s in stat %}
+							{% for c in com %}
 
 								<tr>
 
-									<td>{{s.username}}</td>
-									<td>{{s.titre}}</td>
-									<td>{{s.contenu}}</td>
-									<td>{{s.nbrLike}}</td>
-									<td>{{s.created|date("d/m/Y")}}</td>
-									<td>{{s.updated|date("d/m/Y")}}</td>
-
+									<td>{{c.username}}</td>
+									<td>{{c.description}}</td>
+									<td>{{c.dateajout|date("d/m/Y")}}</td>
 									<td>
-										<a href="{{ path('modifierStatut',{'id':s.id}) }}" class="btn btn-warning">
+										<a href="{{ path('modifier_cmtAdmin',{'id':c.id}) }}" class="btn btn-warning">
 											<i class="bi bi-pencil-square"></i>
 
 										</a>
 
-										<a href="{{ path('removeStatut',{'id':s.id}) }}" class="btn btn-primary">
+										<a href="{{ path('supprimer_cmtAdmin',{'id':c.id}) }}" class="btn btn-primary">
 											<i class="bi bi-trash3-fill"></i>
 										</a>
 									</td>
 								</tr>
 
 							{% endfor %}
-							
+
 
 						</tbody>
 					</table>

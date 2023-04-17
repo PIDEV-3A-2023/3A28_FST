@@ -25,7 +25,7 @@ class DashboardStatutController extends AbstractController
 
         ]);
     }
-    #[Route('/dashboard/updateStatut/{id}', name: 'modifierStatut')]
+    #[Route('/dashboard/modifierStatut/{id}', name: 'modifierStatut')]
     public function update(ManagerRegistry $doctrine, Request $request, $id, StatutRepository $repo): Response
     {
         $em = $doctrine->getManager();
@@ -41,5 +41,15 @@ class DashboardStatutController extends AbstractController
         return $this->renderForm('dashboard_statut/modifierstatadmin.html.twig', [
             'f' => $form,
         ]);
+    }
+    #[Route("/dashboard/removeStatut/{id}", name: 'removeStatut')]
+    public function delete($id, ManagerRegistry $doctrine)
+    {
+        $em = $doctrine->getManager();
+        $statut = $doctrine->getRepository(Statut::class)->find($id);
+
+        $em->remove($statut);
+        $em->flush();
+        return $this->redirectToRoute('showdashboard');
     }
 }
