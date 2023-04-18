@@ -14,33 +14,39 @@
 
 			</div>
 		</section>
-		<h3 class="sidebar-title">Search</h3>
-		<div class="sidebar-item search-form">
-			<form>
-				<input type="text" class="form-control" placeholder="Mot clé..." id="search">
-				<button type="submit">
-					<i class="bi bi-search"></i>
-				</button>
-			</form>
+		<div class="col-lg-4" style="center">
+
+			<h3 class="sidebar-title">Recherche</h3>
+			<div class="sidebar-item search-form">
+
+				<form>
+					<div class="d-flex justify-content-center">
+
+						<input type="text" class="form-control" placeholder="Mot clé..." id="search">
+						<button type="submit">
+							<i class="bi bi-search"></i>
+						</button>
+					</div>
+
+				</form>
+			</div>
 		</div>
 		<!-- End Breadcrumbs -->
 
 		<!-- ======= Blog Section ======= -->
 		<section id="blog" class="blog">
 			<div class="container" data-aos="fade-up">
-				
-					<div id="all">
-						{% include "statut/ajax.html.twig" %}
-					</div>
 
-					<div id="search"></div>
+				<div id="all">
+					{% include "statut/ajax.html.twig" %}
+				</div>
 
-					<!-- End blog entries list -->
+				<div id="search"></div>
 
-					
-					<!-- End blog sidebar -->
+				<!-- End blog entries list -->
 
-				
+
+				<!-- End blog sidebar -->
 
 
 			</div>

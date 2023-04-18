@@ -4,7 +4,7 @@
 		{% for s in stat %}
 
 			<article class="entry" style="text-align: center; background-color: #eff1d4
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													;">
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																;">
 
 				<div style="">
 					<a><img src="{{asset('uploads/'~ s.image)}}" height="300" width="680"></a>
@@ -41,11 +41,7 @@
 						{{s.contenu}}
 					</p>
 
-					<li>
-						<a href="{{path('likes',{'id':s.id})}}">{{s.nbrLike}}
-							<i class="fas fa-heart"></i>
-						</a>
-					</li>
+
 					<div class="read-more mx-2">
 						<a href="{{path('showcommentaire',{'id':s.id})}}">Lire Plus</a>
 					</div>
@@ -61,6 +57,12 @@
 								<i class="bi bi-pencil-square"></i>
 							</a>
 						</div>
+						<div class="read-more mx-2">
+							<a href="{{path('likes',{'id':s.id})}}">
+
+								<i class="bi bi-suit-heart-fill"></i>
+							</a>
+						</div>
 					</div>
 				</div>
 
@@ -68,7 +70,6 @@
 			</article>
 		{% endfor %}
 		<!-- End blog entry -->
-		<!-- Pagination -->
 
 
 	</div>

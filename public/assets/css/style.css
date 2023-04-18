@@ -2395,3 +2395,24 @@ section {
   font-size: 13px;
   color: #012970;
 }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000;
+  /* Changer la couleur des bordures ici */
+  padding: 10px;
+  /* Changer la valeur du padding ici */
+}
+
+.form-control {
+  flex: 1;
+}
+
+button[type="submit"] {
+  background: none;
+  border: none;
+  margin-left: 10px;
+  /* Changer la valeur de la marge gauche ici */
+}
