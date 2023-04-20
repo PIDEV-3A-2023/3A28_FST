@@ -24,8 +24,11 @@ class StatutController extends AbstractController
     public function index(StatutRepository $repo, Request $request): Response
     {
         $statuts = $repo->findAll();
+        $last = $repo->latest_posts();
+
         return $this->render('statut/index.html.twig', [
             'stat' => $statuts,
+            'last' => $last
         ]);
     }
 

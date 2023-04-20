@@ -148,25 +148,18 @@
 							<!-- End sidebar categories-->
 
 							<h3 class="sidebar-title">Recent Posts</h3>
-							<div class="sidebar-item recent-posts">
-								<div class="post-item clearfix">
-									<img src="assets/img/blog/blog-recent-1.jpg" alt="">
-									<h4>
-										<a href="blog-single.html">xxxxxxxxxxxx</a>
-									</h4>
-									<time datetime="2020-01-01">Jan 1, 2020</time>
-								</div>
+			{% for l in last %}
 
-								<div class="post-item clearfix">
-									<img src="assets/img/blog/blog-recent-2.jpg" alt="">
-									<h4>
-										<a href="blog-single.html">yyyyyy</a>
-									</h4>
-									<time datetime="2020-01-01">Jan 5, 2023</time>
-								</div>
+				<div class="sidebar-item recent-posts">
+					<div class="post-item clearfix">
 
-
-							</div>
+						<h4>
+							<a href="#">{{l.titre}}</a>
+						</h4>
+						<time datetime="2020-01-01">{{l.created|date('d-m-Y')}}</time>
+					</div>
+				</div>
+			{% endfor %}
 							<!-- End sidebar recent posts-->
 
 

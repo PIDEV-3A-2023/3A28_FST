@@ -73,4 +73,13 @@ class StatutRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    function latest_posts()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT statut.titre,statut.created,statut.image  as co FROM statut GROUP BY statut.created ORDER BY statut.created desc LIMIT 3';
+        $stmt = $conn->prepare($sql);
+        return $stmt->executeQuery()->fetchAllAssociative();
+    }
 }

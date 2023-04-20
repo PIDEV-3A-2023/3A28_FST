@@ -26,6 +26,8 @@ class CommentaireController extends AbstractController
         $form = $this->createForm(CommentaireType::class, $commentaire);
         $statut = $repo->find($id);
         $commentaires = $repo_c->findByStatut($statut);
+        $last = $repo->latest_posts();
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $commentaire->setDateAjout(new \DateTime("now"));
@@ -39,7 +41,9 @@ class CommentaireController extends AbstractController
         return $this->renderForm('commentaire/index.html.twig', [
             'stat' => $statut,
             'com' => $commentaires,
-            'f' => $form
+            'f' => $form,
+            'last' => $last
+
         ]);
     }
 
