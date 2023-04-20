@@ -3,6 +3,26 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+
+
+	<hr
+		class="sidebar-divider">
+		<!-- Nav Item - Charts -->
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path ('showdashboard')}}">
+				<i class="fas fa-fw fa-chart-area"></i>
+				<span>Statuts</span>
+			</a>
+		</li>
+
+		<!-- Nav Item - Tables -->
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path ('showdashboardcom')}}">
+				<i class="fas fa-fw fa-table"></i>
+				<span>Commentaires</span>
+			</a>
+		</li>
+	</hr>
 	<div
 		class="container-fluid">
 
@@ -62,13 +82,15 @@
 								</tr>
 
 							{% endfor %}
-							
+
 
 						</tbody>
 					</table>
 				</div>
+
 			</div>
 		</div>
 
 	</div>
+
 {% endblock %}

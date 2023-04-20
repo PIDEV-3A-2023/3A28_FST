@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StatutController extends AbstractController
 {
     #[Route('/statut/fetch', name: 'showstatut')]
-    public function index(StatutRepository $repo, Request $request, PaginatorInterface $paginator): Response
+    public function index(StatutRepository $repo, Request $request): Response
     {
         $statuts = $repo->findAll();
         return $this->render('statut/index.html.twig', [
@@ -113,28 +113,27 @@ class StatutController extends AbstractController
         ]);
     }
     #[Route('/statut/likes/{id}', name: 'likes')]
-    public function likes(StatutRepository $rp,$id): Response
+    public function likes(StatutRepository $rp, $id): Response
     {
-        $Statut=$rp->find($id);
+        $Statut = $rp->find($id);
         $Statut->setNbrLike($Statut->getNbrLike() + 1);
         $entityManager = $this->getDoctrine()->getManager();
-       
+
         $entityManager->flush();
-        
+
         return $this->redirectToRoute('showstatut', [], Response::HTTP_SEE_OTHER);
     }
-    
+
 
     #[Route('/statut/dislikes/{id}', name: 'dislikes')]
-    public function dislikes(StatutRepository $rp,$id): Response
+    public function dislikes(StatutRepository $rp, $id): Response
     {
-        $statut=$rp->find($id);
+        $statut = $rp->find($id);
         $statut->setNbrLike($statut->getNbrLike() - 1);
         $entityManager = $this->getDoctrine()->getManager();
-      
+
         $entityManager->flush();
-        
+
         return $this->redirectToRoute('showstatut', [], Response::HTTP_SEE_OTHER);
     }
-
 }

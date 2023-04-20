@@ -4,11 +4,30 @@
 {% endblock %}
 
 {% block body %}
+
+	<hr
+		class="sidebar-divider">
+		<!-- Nav Item - Charts -->
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path ('showdashboard')}}">
+				<i class="fas fa-fw fa-chart-area"></i>
+				<span>Statuts</span>
+			</a>
+		</li>
+
+		<!-- Nav Item - Tables -->
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path ('showdashboardcom')}}">
+				<i class="fas fa-fw fa-table"></i>
+				<span>Commentaires</span>
+			</a>
+		</li>
+	</hr>
 	<div
 		class="container-fluid">
 
 		<!-- Page Heading -->
-		<h1 class="h3 mb-2 text-gray-800">Gérer les statuts</h1>
+		<h1 class="h3 mb-2 text-gray-800">Gérer les Commentaires</h1>
 
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
@@ -20,6 +39,7 @@
 					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 						<thead>
 							<tr>
+
 								<th>Nom</th>
 								<th>commentaire</th>
 								<th>Date d'ajout</th>
