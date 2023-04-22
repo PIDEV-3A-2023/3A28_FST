@@ -74,7 +74,7 @@ class Categorie
                 $idp->setIdctg(null);
             }
         }
-
+    
         return $this;
     }
 }

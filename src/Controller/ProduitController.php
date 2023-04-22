@@ -8,11 +8,13 @@ use App\Form\AjoutprodType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class ProduitController extends AbstractController
@@ -38,22 +40,25 @@ public function ajoutProduit(Request $request, EntityManagerInterface $entityMan
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        $images = $form->get('image')->getData();
-        foreach ($images as $image) {
-            if ($image instanceof UploadedFile) {
-                $fileName = md5(uniqid()) . '.' . $image->guessExtension();
+        $image = $form->get('image')->getData();
+        if ($image) {
+            $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = $this->generateSafeFilename($originalFilename).'.'.$image->guessExtension();
+            try {
                 $image->move(
                     $this->getParameter('images_directory'),
-                    $fileName
+                    $newFilename
                 );
-                $produit->setImage($fileName);
+            } catch (FileException $e) {
+                // Handle the exception
             }
+            $produit->setImage($newFilename);
         }
 
         $entityManager->persist($produit);
         $entityManager->flush();
 
-        $this->addFlash('notice', 'ajouter avec succées!');
+        $this->addFlash('success', 'Produit ajouté avec succès!');
 
         return $this->redirectToRoute('app_produit');
     }
@@ -63,6 +68,24 @@ public function ajoutProduit(Request $request, EntityManagerInterface $entityMan
     ]);
 }
 
+        private function generateSafeFilename($originalFilename)
+        {
+            // Remove any non-alphanumeric characters from the filename
+            $filename = preg_replace('/[^a-zA-Z0-9]/', '-', $originalFilename);
 
+            // Remove any consecutive dashes
+            $filename = preg_replace('/-{2,}/', '-', $filename);
+
+            // Remove any leading or trailing dashes
+            $filename = trim($filename, '-');
+
+            // Add a unique ID to the filename to ensure it's unique
+            $newFilename = $filename.'-'.uniqid();
+
+            return $newFilename;
+        }
 }
+
+
+
 

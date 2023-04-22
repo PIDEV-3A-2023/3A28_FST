@@ -7,6 +7,7 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer/semver": "^3.3",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -60,8 +61,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "Gedmo\\Sluggable\\Util\\": "path/to/Gedmo/Sluggable/Util/"
+            "App\\": "src/"
+
         }
     },
     "autoload-dev": {

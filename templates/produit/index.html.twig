@@ -24,10 +24,11 @@
         {% for produit in produits %}
             <div class="col-md-2 mb-2">
                 <div class="card">
-                    <img src="{{ asset('../uploads/images/' ~ produit.image) }}" alt="{{ produit.nom }}">
+                    <img src="uploads/images/{{produit.image}}" alt="{{ produit.nom }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ produit.nom }}</h5>
                         <p class="card-text">{{ produit.description }}</p>
+                        <p class="card-text">{{ produit.prix }} DT</p>
                       
                         <a href="#" class="btn btn-primary">Add to Cart</a>
                     </div>
