@@ -14,6 +14,7 @@ use App\Form\CommentaireType;
 use App\Form\UpdateCommentaireType;
 use App\Repository\CommentaireRepository;
 use App\Repository\StatutRepository;
+use Symfony\Component\HttpClient\HttpClient;
 
 
 
@@ -24,25 +25,48 @@ class CommentaireController extends AbstractController
     {
         $em = $doctrine->getManager();
         $commentaire = new Commentaire();
-        $form = $this->createForm(CommentaireType::class, $commentaire);
         $statut = $repo->find($id);
-
-
-        $commentaires = $repo_c->findByStatut($statut);
-
+        $description = $repo_c->findByStatut($statut);
+        $form = $this->createForm(CommentaireType::class, $commentaire);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $commentaire->setDateAjout(new \DateTime("now"));
             $commentaire->setIdS($statut);
-            $em->persist($commentaire);
-            $em->flush();
-            return $this->redirectToRoute('showcommentaire', ['id' => $id]);
+            $commentaire->setDateAjout(new \DateTime("now"));
+            //filter bad words 
+            $description = $commentaire->getDescription();
+            $httpClient = HttpClient::create();
+            $response = $httpClient->request('GET', 'https://neutrinoapi.net/bad-word-filter', [
+                'query' => [
+                    'content' => $description
+                ],
+                'headers' => [
+                    'User-ID' => '22042000',
+                    'API-Key' => 'WY7zvIuSAw1KTTogtS9X3IGUumCkeSHoPVOEDGPaHGd31ubF',
+                ]
+            ]);
+            if ($response->getStatusCode() === 200) {
+                $result = $response->toArray();
+                if ($result['is-bad']) {
+                    // Handle bad word found
+                    $this->addFlash('danger', '</i>Your comment contains inappropriate language and cannot be posted.');
+                    return $this->redirectToRoute('bad_words', ['id' => $id]);
+                } else {
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($commentaire);
+                    $em->flush();
+                    return $this->redirectToRoute('showcommentaire', ['id' => $id]);
+                }
+            } else {
+
+                return new Response("Error processing request", Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
         }
 
-        
+
         return $this->renderForm('commentaire/index.html.twig', [
             'stat' => $statut,
-            'com' => $commentaires,
+            'com' => $description,
             'f' => $form,
 
         ]);
@@ -77,5 +101,13 @@ class CommentaireController extends AbstractController
         $em->remove($c);
         $em->flush();
         return $this->redirectToRoute('showcommentaire', ['id' => $c->getIdS()->getId()]);
+    }
+
+    #[Route('/bad_words', name: 'bad_words')]
+
+    function Affiche_bad(CommentaireRepository $repository)
+    {
+        $Commentaire = $repository->findAll();
+        return $this->render('commentaire/bad_words.html.twig', ['description' => $Commentaire]);
     }
 }
