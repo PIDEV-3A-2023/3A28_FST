@@ -11,16 +11,21 @@ use App\Repository\StatutRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\CommentaireType;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class DashboardComController extends AbstractController
 {
     #[Route('/dashboard/com', name: 'showdashboardcom')]
-    public function index(CommentaireRepository $repo_c): Response
+    public function index(CommentaireRepository $repo_c, PaginatorInterface $paginator, Request  $request): Response
     {
 
         $commentaires = $repo_c->findAll();
-
+        $commentaires = $paginator->paginate(
+            $commentaires, /* query NOT result */
+            $request->query->getInt('page', 1),
+            4
+        );
         return $this->render('dashboard_com/index.html.twig', [
             'com' => $commentaires,
 

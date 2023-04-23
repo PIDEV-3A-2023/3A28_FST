@@ -28,7 +28,7 @@ class StatutController extends AbstractController
 
         return $this->render('statut/index.html.twig', [
             'stat' => $statuts,
-            'last' => $last
+            'last' => $last,
         ]);
     }
 
@@ -62,6 +62,7 @@ class StatutController extends AbstractController
         }
         return $this->renderForm('statut/ajoutstatut.html.twig', [
             'f' => $form,
+            
         ]);
     }
 
@@ -103,6 +104,7 @@ class StatutController extends AbstractController
 
         return $this->render('statut/ajax.html.twig', [
             'stat' => $statuts,
+
         ]);
     }
 
@@ -110,9 +112,12 @@ class StatutController extends AbstractController
     public function filtretype(StatutRepository $repo, $type): Response
     {
         $statut = $repo->findBytype($type);
+        $last = $repo->latest_posts();
+
 
         return $this->render('statut/index.html.twig', [
             'stat' => $statut,
+            'last' => $last,
         ]);
     }
     #[Route('/statut/likes/{id}', name: 'likes')]

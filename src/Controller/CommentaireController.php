@@ -16,6 +16,7 @@ use App\Repository\CommentaireRepository;
 use App\Repository\StatutRepository;
 
 
+
 class CommentaireController extends AbstractController
 {
     #[Route('/commentaire/fetch/{id}', name: 'showcommentaire')]
@@ -25,8 +26,9 @@ class CommentaireController extends AbstractController
         $commentaire = new Commentaire();
         $form = $this->createForm(CommentaireType::class, $commentaire);
         $statut = $repo->find($id);
+
+
         $commentaires = $repo_c->findByStatut($statut);
-        $last = $repo->latest_posts();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,12 +39,11 @@ class CommentaireController extends AbstractController
             return $this->redirectToRoute('showcommentaire', ['id' => $id]);
         }
 
-
+        
         return $this->renderForm('commentaire/index.html.twig', [
             'stat' => $statut,
             'com' => $commentaires,
             'f' => $form,
-            'last' => $last
 
         ]);
     }

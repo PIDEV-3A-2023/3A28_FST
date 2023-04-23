@@ -13,10 +13,10 @@ use Symfony\Component\Validator\Constraints\File;
 class StatutType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    { 
         $builder
             ->add('username')
-            ->add('titre')
+            ->add('titre' )
             ->add('contenu')
             ->add('image', FileType::class, [
                 'label' => 'Votre Image (JPG,JPAG,PNG,JFIF)',

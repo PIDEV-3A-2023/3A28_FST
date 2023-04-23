@@ -90,7 +90,21 @@
 
 			</div>
 		</div>
+		<!-- Pagination -->
+		<div class="row">
+			<div class="col-md-10 pagi-area text-center">
+				<nav aria-label="navigation">
+					<ul class="pagination">
 
+						<li class="page-item">
+							<a class="page-link active">{{ knp_pagination_render(stat) }}</a>
+						</li>
+
+					</ul>
+				</nav>
+			</div>
+		</div>
 	</div>
+	
 
 {% endblock %}

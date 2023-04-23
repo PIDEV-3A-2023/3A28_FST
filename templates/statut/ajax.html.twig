@@ -5,16 +5,12 @@
 
 			<article class="entry" style="text-align: center; background-color: #eff1d4
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												;">
-
 				<div style="">
 					<a><img src="{{asset('uploads/'~ s.image)}}" height="300" width="680"></a>
 				</div>
-
-
 				<h2 class="entry-title">
 					<a href="blog-single.html">{{s.titre}}</a>
 				</h2>
-
 				<div class="entry-meta">
 					<ul>
 						<li class="d-flex align-items-center">
@@ -31,22 +27,16 @@
 							<i class="bi bi-chat-square-heart"></i>
 							<a href="blog-single.html">{{s.nbrLike}}</a>
 						</li>
-
-
 					</ul>
 				</div>
-
 				<div class="entry-content">
 					<p>
 						{{s.contenu}}
 					</p>
-
-
 					<div class="read-more mx-2">
 						<a href="{{path('showcommentaire',{'id':s.id})}}">Lire Plus</a>
 					</div>
 					<div class="d-flex justify-content-center">
-
 						<div class="read-more mx-2">
 							<a href="{{path('removestatut',{'id':s.id})}}">
 								<i class="bi bi-trash3-fill"></i>
@@ -59,24 +49,17 @@
 						</div>
 						<div class="read-more mx-2">
 							<a href="{{path('likes',{'id':s.id})}}">
-
 								<i class="bi bi-suit-heart-fill"></i>
 							</a>
 						</div>
 					</div>
 				</div>
-
-
 			</article>
 		{% endfor %}
 		<!-- End blog entry -->
-
-
 	</div>
 	<div class="col-lg-4">
-
 		<div class="sidebar">
-
 			<br>
 			<!-- End sidebar search formn-->
 			<h3 class="sidebar-title">Exprimez-vous !
@@ -84,49 +67,37 @@
 					<i class="bi bi-plus-square-fill"></i>
 				</a>
 			</h3>
-
 			<br>
-
 			<h3 class="sidebar-title">Explorez les différents types de sujets</h3>
-
-
 			<div class="sidebar-item categories">
 				<ul>
-					<li><ahref="{{path('filtretype',{'type':'Poterie'})}}"><span>Poterie</span></a></li>
-
+					<li><a href="{{path('filtretype',{'type':'Poterie'})}}"><span>Poterie</span></a></li>
 				</ul>
 			</div>
 			<div class="sidebar-item categories">
 				<ul>
-					<li><ahref="{{path('filtretype',{'type':'Musique'})}}"><span>Musique</span></a></li>
-
+					<li><a href="{{path('filtretype',{'type':'Musique'})}}"><span>Musique</span></a></li>
 				</ul>
 			</div>
 			<div class="sidebar-item categories">
 				<ul>
-					<li><ahref="{{path('filtretype',{'type':'Sculpture'})}}"><span>Sculpture</span></a></li>
-
+					<li><a href="{{path('filtretype',{'type':'Sculpture'})}}"><span>Sculpture</span></a></li>
 				</ul>
 			</div>
 			<div class="sidebar-item categories">
 				<ul>
-					<li><ahref="{{path('filtretype',{'type':'StreetArt'})}}"><span>StreetArt</span></a></li>
-
+					<li><a href="{{path('filtretype',{'type':'StreetArt'})}}"><span>StreetArt</span></a></li>
 				</ul>
 			</div>
 			<div class="sidebar-item categories">
 				<ul>
-					<li><ahref="{{path('filtretype',{'type':'Peinture'})}}"><span>Peinture</span></a></li>
-
+					<li><a href="{{path('filtretype',{'type':'Peinture'})}}"><span>Peinture</span></a></li>
 				</ul>
 			</div>
-
 			<h3 class="sidebar-title">Recent Posts</h3>
-			{% for l in last %}
-
+			 {% for l in last %}
 				<div class="sidebar-item recent-posts">
 					<div class="post-item clearfix">
-
 						<h4>
 							<a href="#">{{l.titre}}</a>
 						</h4>
@@ -134,9 +105,7 @@
 					</div>
 				</div>
 			{% endfor %}
-
 		</div>
 		<!-- End sidebar -->
-
 	</div>
 </div>

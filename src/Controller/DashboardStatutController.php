@@ -11,15 +11,22 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Statut;
 use App\Form\StatutType;
-
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 
 
 class DashboardStatutController extends AbstractController
 {
     #[Route('/dashboard/statut', name: 'showdashboard')]
-    public function index(StatutRepository $repo): Response
+    public function index(StatutRepository $repo , PaginatorInterface $paginator, Request  $request): Response
     {
         $statuts = $repo->findAll();
+        $statuts = $paginator->paginate(
+            $statuts, /* query NOT result */
+            $request->query->getInt('page', 1),
+            4
+        );
         return $this->render('dashboard_statut/index.html.twig', [
             'stat' => $statuts,
 
