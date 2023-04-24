@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class GestionProduitController extends AbstractController
@@ -60,33 +61,54 @@ class GestionProduitController extends AbstractController
 
         #[Route('/ajout/produitad', name: 'ajoutProduitad')]
         public function ajoutProduit(Request $request, EntityManagerInterface $entityManager)
-        {
-            $produit = new Produit();
+        { $produit = new Produit();
             $form = $this->createForm(AjoutprodType::class, $produit);
             $form->handleRequest($request);
-
+        
             if ($form->isSubmitted() && $form->isValid()) {
-                $images = $form->get('image')->getData();
-                foreach ($images as $image) {
-                    if ($image instanceof UploadedFile) {
-                        $fileName = md5(uniqid()) . '.' . $image->guessExtension();
+                $image = $form->get('image')->getData();
+                if ($image) {
+                    $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = $this->generateSafeFilename($originalFilename).'.'.$image->guessExtension();
+                    try {
                         $image->move(
                             $this->getParameter('images_directory'),
-                            $fileName
+                            $newFilename
                         );
-                        $produit->setImage($fileName);
+                    } catch (FileException $e) {
+                        // Handle the exception
                     }
+                    $produit->setImage($newFilename);
                 }
-
+        
                 $entityManager->persist($produit);
                 $entityManager->flush();
-
+        
+                $this->addFlash('success', 'Produit ajouté avec succès!');
+        
                 return $this->redirectToRoute('app_gestion_produit');
             }
 
             return $this->render('gestion_produit/ajoutprod.html.twig', [
                 'form' => $form->createView(),
             ]);
+        }
+
+        private function generateSafeFilename($originalFilename)
+        {
+            // Remove any non-alphanumeric characters from the filename
+            $filename = preg_replace('/[^a-zA-Z0-9]/', '-', $originalFilename);
+
+            // Remove any consecutive dashes
+            $filename = preg_replace('/-{2,}/', '-', $filename);
+
+            // Remove any leading or trailing dashes
+            $filename = trim($filename, '-');
+
+            // Add a unique ID to the filename to ensure it's unique
+            $newFilename = $filename.'-'.uniqid();
+
+            return $newFilename;
         }
 
 }

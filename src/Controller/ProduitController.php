@@ -6,29 +6,41 @@ namespace App\Controller;
 use App\Entity\Produit;
 use App\Form\AjoutprodType;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class ProduitController extends AbstractController
 {
     #[Route('/produit', name: 'app_produit')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator): Response
     {
-        $produits = $entityManager->getRepository(Produit::class)->findAll();
+        $queryBuilder = $entityManager->getRepository(Produit::class)->createQueryBuilder('p');
+        $searchTerm = $request->query->get('query');
+    
+        if ($searchTerm) {
+            $queryBuilder->where('p.nom LIKE :searchTerm OR p.description LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        }
+    
+        $query = $queryBuilder->getQuery();
+    
+        $pagination = $paginator->paginate(
+            $query, // Query results to paginate
+            $request->query->getInt('page', 1), // Current page number
+            6 // Number of items per page
+        );
+    
         return $this->render('produit/index.html.twig', [
             'controller_name' => 'ProduitController',
-            'produits' => $produits, // Pass the products to the view
+            'pagination' => $pagination, // Pass the pagination object to the view
+            'searchTerm' => $searchTerm, // Pass the search term to the view
         ]);
     }
-
 /**
  * @param Request $request
  * @Route("ajoutProduit", name="ajoutProduit")
@@ -83,6 +95,21 @@ public function ajoutProduit(Request $request, EntityManagerInterface $entityMan
             $newFilename = $filename.'-'.uniqid();
 
             return $newFilename;
+        }
+
+
+        /**
+         * @Route("/search", name="search")
+         */
+        public function search(Request $request): Response
+        {
+            $query = $request->query->get('query');
+
+            if (!$query) {
+                return $this->redirectToRoute('app_produit');
+            }
+
+            return $this->redirectToRoute('app_produit', ['query' => $query]);
         }
 }
 
