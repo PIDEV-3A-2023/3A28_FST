@@ -77,7 +77,7 @@ class StatutRepository extends ServiceEntityRepository
     function latest_posts()
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT statut.titre,statut.created,statut.image  as co FROM statut GROUP BY statut.created ORDER BY statut.created desc LIMIT 3';
+        $sql = 'SELECT statut.titre,statut.created,statut.image  as co FROM statut GROUP BY statut.created ORDER BY statut.created desc LIMIT 2';
         $stmt = $conn->prepare($sql);
         return $stmt->executeQuery()->fetchAllAssociative();
     }
