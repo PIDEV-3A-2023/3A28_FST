@@ -38,11 +38,11 @@
                 border-radius: 4px;
                 color: #fff;
                 background-color: #F6B49C;"><i class="fa fa-search"></i></button>
+            </div>
+          </form>
           </div>
-        </form>
-        </div>
-        </div>
-        </div>
+          </div>
+          </div>
           <div class="row" data-aos="fade-up" data-aos-delay="100">
           <div class="col-lg-12 d-flex justify-content-center">
             <!--div class="d-flex">
@@ -55,14 +55,34 @@
         <div class="row gy-4 portfolio-container" >
         {% for produit in pagination %}
             <div class="col-md-2 mb-2">
-                <div class="card">
-                    <img src="uploads/images/{{produit.image}}" alt="{{ produit.nom }}" style="width: 191.5px; height: 199px; object-fit: cover; border: 1px solid #ccc; box-shadow: 0px 0px 5px #ccc;">
+                <div class="card" data-product-id="1234">
+                    <img src="uploads/images/{{produit.image}}" alt="{{ produit.nom }}" style="width: 194px; height: 199px; object-fit: cover; border: 1px solid #ccc; box-shadow: 0px 0px 5px #ccc;">
+                    <a href="#" class="heart-icon" style ="position: absolute;
+                          top: 10px;
+                          right: 10px;
+                          padding: 5px;
+                          color: white;"><i class="fa fa-heart"></i></a>
                     <div class="card-body">
                         <h5 class="card-title">{{ produit.nom }}</h5>
                         <p class="card-text">{{ produit.prix }} DT</p>
-                      
-                        <a href="#" class="btn btn-primary cart-btn"><i class="fas fa-shopping-cart"></i></a>
-                        <a href="#" class="heart-icon"><i class="fa fa-heart"></i></a>
+                      <div class="container">
+                        <div class="row justify-content-between">
+                          <div class="col-auto">
+                            <a href="#" class="btn cart-btn" style ="  display: inline-block;
+                              background-color: transparent;
+                              border: 2px;
+                              padding: 0;
+                              "><i class="fas fa-shopping-cart" style ="color: #F6B49C;"></i></a>
+                          </div>
+                              <div class="col-auto">
+                            <a href="{{ path('app_produit_detail', {'id': produit.id}) }}" class="btn more-details-btn" style ="  display: inline-block;
+                              background-color: transparent;
+                              border: 2px;
+                              padding: 0;
+                              "><i class="fas fa-info-circle" style ="color: #F6B49C;"></i></a>
+                              </div>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>

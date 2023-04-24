@@ -111,6 +111,24 @@ public function ajoutProduit(Request $request, EntityManagerInterface $entityMan
 
             return $this->redirectToRoute('app_produit', ['query' => $query]);
         }
+
+
+
+        /**
+         * @Route("/produit/{id}", name="app_produit_detail")
+         */
+        public function showProductDetails($id, EntityManagerInterface $entityManager)
+        {
+            $produit = $entityManager->getRepository(Produit::class)->find($id);
+
+            if (!$produit) {
+                throw $this->createNotFoundException('The product does not exist');
+            }
+
+            return $this->render('produit/detail.html.twig', [
+                'produit' => $produit,
+            ]);
+        }
 }
 
 
