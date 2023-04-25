@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Produit;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,25 +18,38 @@ class MainBackController extends AbstractController
         ]);
     }
 
-/**
- * @Route("/stats", name="stats")
- */
-public function statistiques(ProduitRepository $produitRepository): Response
-{
-    $produits = $produitRepository->findAll();
+    /**
+     * @Route("/stats", name="stats")
+     */
+    public function statistiques(ProduitRepository $produitRepository): Response
+    {
+        $produits = $produitRepository->findAll();
 
-    // Transform $produits into a format compatible with Google Charts
+        // Transform $produits into a format compatible with Google Charts
+        $data1 = [
+            ['Produit', 'Likes'],
+        ];
 
-    $data = [
-        ['Produit', 'Likes'],
-    ];
+        foreach ($produits as $produit) {
+            $data1[] = [$produit->getNom(), $produit->getLikes()];
+        }
 
-    foreach ($produits as $produit) {
-        $data[] = [$produit->getNom(), $produit->getLikes()];
+        // Get the count of products by category
+        $categories = $produitRepository->getProductCountByCategory();
+
+        // Transform $categories into a format compatible with Google Charts
+        $data2 = [
+            ['Categorie', 'Produits'],
+        ];
+
+        foreach ($categories as $categorie) {
+            $data2[] = [$categorie['nom'], (int)$categorie['produit_count']];
+        }
+
+        return $this->render('main_back/stats.html.twig', [
+            'data1' => $data1,
+            'data2' => $data2,
+        ]);
     }
 
-    return $this->render('main_back/stats.html.twig', [
-        'data' => $data,
-    ]);
-}
 }
