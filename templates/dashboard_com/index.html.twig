@@ -81,18 +81,10 @@
 			</div>
 		</div>
 		<!-- Pagination -->
-		<div class="row">
-			<div class="col-md-10 pagi-area text-center">
-				<nav aria-label="navigation">
-					<ul class="pagination">
+		<!-- Pagination -->
+		<div class="d-flex justify-content-center">
 
-						<li class="page-item">
-							<a class="page-link active">{{ knp_pagination_render(com) }}</a>
-						</li>
-
-					</ul>
-				</nav>
-			</div>
+			{{knp_pagination_render(pagination, 'pagination.html.twig')}}
 		</div>
 	</div>
 {% endblock %}

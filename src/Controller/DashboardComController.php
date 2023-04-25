@@ -12,22 +12,29 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\CommentaireType;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class DashboardComController extends AbstractController
 {
     #[Route('/dashboard/com', name: 'showdashboardcom')]
-    public function index(CommentaireRepository $repo_c, PaginatorInterface $paginator, Request  $request): Response
+    public function index(EntityManagerInterface $entityManager, CommentaireRepository $repo_c, PaginatorInterface $paginator, Request  $request): Response
     {
+        $queryBuilder = $entityManager->getRepository(Commentaire::class)->createQueryBuilder('c');
 
-        $commentaires = $repo_c->findAll();
-        $commentaires = $paginator->paginate(
-            $commentaires, /* query NOT result */
-            $request->query->getInt('page', 1),
-            4
+        $pagination = $repo_c->findAll();
+        $query = $queryBuilder->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, // Query results to paginate
+            $request->query->getInt('page', 1), // Current page number
+            5 // Number of items per page
         );
+
         return $this->render('dashboard_com/index.html.twig', [
-            'com' => $commentaires,
+            'com' => $pagination,
+            'pagination' => $pagination,
+
 
 
         ]);

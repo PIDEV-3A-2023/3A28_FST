@@ -14,21 +14,29 @@ use App\Form\StatutType;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class DashboardStatutController extends AbstractController
 {
     #[Route('/dashboard/statut', name: 'showdashboard')]
-    public function index(StatutRepository $repo , PaginatorInterface $paginator, Request  $request): Response
+    public function index(EntityManagerInterface $entityManager, StatutRepository $repo , PaginatorInterface $paginator, Request  $request): Response
     {
-        $statuts = $repo->findAll();
-        $statuts = $paginator->paginate(
-            $statuts, /* query NOT result */
-            $request->query->getInt('page', 1),
-            4
+        $queryBuilder = $entityManager->getRepository(Statut::class)->createQueryBuilder('s');
+        $pagination = $repo->findAll();
+
+        $query = $queryBuilder->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, // Query results to paginate
+            $request->query->getInt('page', 1), // Current page number
+            5 // Number of items per page
         );
+       
         return $this->render('dashboard_statut/index.html.twig', [
-            'stat' => $statuts,
+            'stat' => $pagination,
+            'pagination' => $pagination, 
+
 
         ]);
     }
