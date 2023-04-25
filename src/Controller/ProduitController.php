@@ -47,7 +47,7 @@ class ProduitController extends AbstractController
         $pagination = $paginator->paginate(
             $query, // Query results to paginate
             $request->query->getInt('page', 1), // Current page number
-            4 // Number of items per page
+            6 // Number of items per page
         );
     
         return $this->render('produit/index.html.twig', [

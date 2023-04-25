@@ -1,0 +1,32 @@
+
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h2>Produit likes statistics</h2>
+        <div id="piechart"></div>
+        <br><br>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable({{ data|json_encode|raw }});
+
+            var options = {
+                title: 'Produit likes statistics',
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+    </script>
+{% endblock %}

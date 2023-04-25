@@ -13,16 +13,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Knp\Component\Pager\PaginatorInterface;
+
 
 class GestionProduitController extends AbstractController
 {
     #[Route('/gestion/produit', name: 'app_gestion_produit')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
-        $produits = $entityManager->getRepository(Produit::class)->findAll();
+        $query = $entityManager->getRepository(Produit::class)->createQueryBuilder('p')->getQuery();
+
+        
+        $produits = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), /*page number*/
+            4 /*limit per page*/
+        );
+
         return $this->render('gestion_produit/index.html.twig', [
-            'controller_name' => 'GestionProduitController',
             'produits' => $produits,
         ]);
     }

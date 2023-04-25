@@ -78,33 +78,39 @@
                 color: #fff;
                 background-color: #F6B49C;"  >Sort</button>
         </form>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
       <form id="filters" method="GET">
         <p>Filter by category:</p>
         {% for categorie in categories %}
-          <div>
-            <input type="checkbox" name="categories[]" id="cat{{categorie.id}}" value="{{categorie.id}}" {% if categorie.id in selectedCategories %}checked{% endif %}>
-            <label for="cat{{categorie.id}}">{{categorie.nomctg}}</label>
-          </div>
+        <div>
+          <input type="checkbox" name="categories[]" id="cat{{categorie.id}}" value="{{categorie.id}}" {% if categorie.id in selectedCategories %}checked{% endif %}>
+          <label for="cat{{categorie.id}}">{{categorie.nomctg}}</label>
+        </div>
         {% endfor %}
         <button type="submit" style="padding: 6px 12px;
-                margin-left:5px;
-                font-size: 14px;
-                line-height: 1.428571429;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                cursor: pointer;
-                background-image: none;
-                border: 1px solid #F6B49C;
-                border-radius: 4px;
-                color: #fff;
-                background-color: #F6B49C;">Apply Filters</button>
-              </form>
-                <br><br>
-                <div class="row gy-4 portfolio-container" >
-              {% include "produit/content.html.twig" %}
-                </div>
-        </div>
+                      margin-left:5px;
+                      font-size: 14px;
+                      line-height: 1.428571429;
+                      text-align: center;
+                      white-space: nowrap;
+                      vertical-align: middle;
+                      cursor: pointer;
+                      background-image: none;
+                      border: 1px solid #F6B49C;
+                      border-radius: 4px;
+                      color: #fff;
+                      background-color: #F6B49C;">Apply Filters</button>
+      </form>
+    </div>
+    <div class="col-md-9">
+      <div class="row gy-4 portfolio-container">
+        {% include "produit/content.html.twig" %}
+      </div>
+    </div>
+  </div>
+</div>
     </section>
 {% endblock %}
 

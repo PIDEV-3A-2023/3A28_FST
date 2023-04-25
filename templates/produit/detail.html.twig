@@ -18,17 +18,18 @@
           <div class="col-lg-8">
             <div class="portfolio-details-slider swiper">
               <div class="swiper-wrapper align-items-center">
-                  <img src="/uploads/images/{{produit.image}}" alt="{{ produit.nom }}" style="height:400px ; width:500px ; margin-left:70px" >
+                 <img src="/uploads/images/{{produit.image}}" alt="{{ produit.nom }}" style="height:400px; width:500px; margin-left:70px; box-shadow: 2px 2px 6px #888888; border-radius: 5px;">
               </div>
             </div>
           </div>
 
           <div class="col-lg-4">
-            <div class="portfolio-info">
+            <div class="portfolio-info" style=" box-shadow: 2px 2px 6px #888888; border-radius: 5px;">
               <h3>{{ produit.nom }}</h3>
               <ul>
                 <li><strong>Categorie</strong>: {{produit.idctg}}</li>
                 <li><strong>Quantité en stock</strong>: {{produit.qtestock}}</li>
+                <li><strong>Nombre des likes</strong>: {{produit.likes}} <i class="fa fa-heart" style="color: red !important;"></i></li> 
                 <li><strong>Quantité du produit vous voulez</strong>: <input type="number" id="quantity" name="quantity" min="1" max="{{produit.qtestock}}" value="1"></li>
                 <button onclick="addToCart({{produit.id}}, document.getElementById('quantity').value)" style=" margin-top : 20px;
                     margin-left: 120px;
@@ -36,7 +37,7 @@
                     background-color: #F6B49C;
                     color: #ffffff;
                     padding: 10px 20px;
-                    border-radius: 5px;"  >Add to cart</button>
+                    border-radius: 5px;" >Add to cart</button>
               </ul>
             </div>
             <div class="portfolio-description">

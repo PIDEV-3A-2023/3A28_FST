@@ -14,7 +14,6 @@ class Produit
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message :"le nom est obligatoire")]
     private ?string $nom = null;
