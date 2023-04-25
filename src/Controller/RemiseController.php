@@ -31,7 +31,7 @@ class RemiseController extends AbstractController
  
         $form->handleRequest($request);
         if ($form->isSubmitted())
-        { $em = $doctrine->getManager();
+        {   $em = $doctrine->getManager();
             $em->persist($remise);
             $em->flush();
             return $this->redirectToRoute('app_remise'); 

@@ -4,7 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CartitemRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Entity\Produit;
+use App\Entity\Shoppingcart;
 #[ORM\Entity(repositoryClass: CartitemRepository::class)]
 class Cartitem
 {
@@ -26,6 +27,9 @@ class Cartitem
 
     #[ORM\Column]
     private ?float $price = null;
+
+    #[ORM\Column]
+    private ?float $Total = null;
 
     public function getId(): ?int
     {
@@ -76,6 +80,18 @@ class Cartitem
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->Total;
+    }
+
+    public function setTotal(float $Total): self
+    {
+        $this->Total = $Total;
 
         return $this;
     }

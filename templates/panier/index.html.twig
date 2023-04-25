@@ -1,0 +1,69 @@
+{% extends 'baseFront.html.twig' %}
+{% block title %}Art Station{% endblock %}
+
+
+{% block body %}
+<h1>My cart</h1>
+    <p>List of all products added to cart</p>
+    {% if cartitem|length > 0 %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Products</th>
+                <th scope="col">Name</th>
+                <th scope="col">Qantity</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                {% set total = null%}
+                    {% for product in cartitem %}
+                        <tr>
+                            <th scope="row">
+                              
+                                <img src="{{ asset('images/' ~ product.produit.image) }}" alt="{{ product.produit.nom }}" height="75px">
+                            </th>
+                            <td>
+                                {{ product.produit.nom }}</br>
+                                <small>{{product.produit.description}}</small>
+                            </td>
+
+
+                            <td>
+                                <a href="{{ path('app_ligne_panier_minus', {'id': product.id})}}">
+                                    <img src="{{ asset('images/minus.png') }}" alt="reduce product" height="12px">
+                                </a>
+                                x {{ product.quantity}}
+                                <a href="{{ path('app_ligne_panier_plus', {'id': product.id})}}">
+                                    <img src="{{ asset('images/plus.png') }}" alt="add product" height="12px">
+                                </a>
+                            </td>
+
+                        
+                            <td>{{ (product.produit.prix )|number_format(2, ',', '.') }} dt</td>
+                            <td>{{ ((product.total) )|number_format(2, ',', '.') }}</td>
+                          
+
+
+
+                        </tr>
+                    {% set total = total + product.produit.prix * product.quantity %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right mb-5">
+            <b>Number of product :</b> {{ cartitem | length }} <br/>
+            <b>Cart total :</b> {{ (total) | number_format(2, ',', '.') }} DT
+            <div class="text-center"> <!-- add text-center class to center button -->
+        <a href="{{ path('Ordre') }}" class="btn btn-success btn-block">Submit cart</a>
+    </div> 
+            <hr>
+            {# <strong>Total :</strong> {{ ((total / 100) + carrier.price) | number_format(2, ',', '.') }} € #}
+        </div>
+      {% else %}
+        <hr>
+        <p><b>Empty cart</b></p>
+      {% endif %}
+{% endblock %}

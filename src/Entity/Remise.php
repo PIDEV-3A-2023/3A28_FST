@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RemiseRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Entity\Cartitem;
 #[ORM\Entity(repositoryClass: RemiseRepository::class)]
 class Remise
 {
