@@ -17,14 +17,14 @@
 		</section>
 		<div class="col-lg-4" style="center">
 
-			<h3 class="sidebar-title">Recherche</h3>
+			<h3 class="sidebar-title">search</h3>
 			<div class="sidebar-item search-form">
 
 				<form>
 					<div class="d-flex justify-content-center">
 
 						<input type="text" class="form-control" placeholder="Cherchez un statut..." id="search">
-						<button type="submit">
+						<button type="submit"
 							<i class="bi bi-search"></i>
 						</button>
 					</div>
@@ -69,7 +69,7 @@ currentRequest.abort();
 }
 
 currentRequest = $.ajax({
-url: "{{ path('ajaxstat') }}",
+url: "{{ path('rechajax') }}",
 type: 'GET',
 data: {
 'searchValue': value

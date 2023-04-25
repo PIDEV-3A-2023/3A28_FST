@@ -95,15 +95,19 @@ class StatutController extends AbstractController
         ]);
     }
 
-    #[Route('/searchajax', name: 'ajaxstat')]
+    #[Route('/searchajax', name: 'rechajax')]
 
     public function searchajax(Request $request, StatutRepository $rep)
     {
         $search = $request->get('searchValue');
         $statuts = $rep->findByTitreOrContenu($search);
+        $last = $rep->latest_posts();
+
 
         return $this->render('statut/ajax.html.twig', [
             'stat' => $statuts,
+            'last' => $last,
+
 
         ]);
     }
