@@ -1,0 +1,215 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+
+
+
+   
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+     
+      <h2 class="text-center" >Liste des WORKSHOPS</h2>
+
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  
+
+             
+<section id="blog" class="blog"  >
+  <div class="container" data-aos="fade-up" style="margin-right: 180px;" >
+
+    <div class="row" style="margin-right: -250px;">
+      <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="sidebar">
+
+          <h3 class="sidebar-title">Search</h3>
+          
+          <div class="sidebar-item search-form">
+            <form action="{{ path('search') }}" method="GET">
+                <input type="text" name="query" class="form-control" placeholder="Chercher un workshop...">
+              <button type="submit"><i class="bi bi-search"></i></button>
+            </form>
+          </div><!-- End sidebar search formn-->
+
+
+          <h2 class="sidebar-title" style="color: rgb(2, 11, 15);">FILTRER SELON</h2>
+          <h3 class="sidebar-title">Categories</h3>
+<div class="sidebar-item categories">
+  <form method="get">
+    <select name="categorie">
+      <option value="">Toutes les categories</option>
+      {% for category in categories %}
+        <option value="{{ category }}" {% if selectedCategory == category %}selected{% endif %}>{{ category }}</option>
+      {% endfor %}
+    </select>
+    <h3 class="sidebar-title">Niveau</h3>
+    <select name="niveau">
+        <option value="">Tous les niveaux</option>
+        {% for key, value in niveaux %}
+            <option value="{{ key }}" {% if selectedNiveau == key %}selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filtrer</button>
+  </form>
+</div><!-- End sidebar categories-->
+
+
+          <h3 class="sidebar-title">Prix</h3>
+
+          
+
+          <div class="form-group">
+            <input type="hidden" id="price-range" name="price_range" value="{{ priceRange }}"/>
+            <div id="slider"></div>
+            <div id="slider-values" class="d-flex justify-content-between">
+              <span id="slider-min-value">{{ priceRange ? priceRange|split('-')[0] : 0 }}</span>
+              <span id="slider-max-value">{{ priceRange ? priceRange|split('-')[1] : 1000 }}</span>
+            </div>
+          </div>
+
+
+
+
+
+
+
+          <div id="slider-range"></div>
+          <h3 class="sidebar-title">Most popular Workshops</h3>
+          <div class="sidebar-item recent-posts">
+            <div class="post-item clearfix">
+              <img src="assets/img/blog/blog-recent-1.jpg" alt="">
+              <h4><a href="blog-single.html">Nihil blanditiis at in nihil autem</a></h4>
+              <time datetime="2020-01-01">Jan 1, 2020</time>
+            </div>
+
+            <div class="post-item clearfix">
+              <img src="assets/img/blog/blog-recent-2.jpg" alt="">
+              <h4><a href="blog-single.html">Quidem autem et impedit</a></h4>
+              <time datetime="2020-01-01">Jan 1, 2020</time>
+            </div>
+
+            <div class="post-item clearfix">
+              <img src="assets/img/blog/blog-recent-3.jpg" alt="">
+              <h4><a href="blog-single.html">Id quia et et ut maxime similique occaecati ut</a></h4>
+              <time datetime="2020-01-01">Jan 1, 2020</time>
+            </div>
+
+            <div class="post-item clearfix">
+              <img src="assets/img/blog/blog-recent-4.jpg" alt="">
+              <h4><a href="blog-single.html">Laborum corporis quo dara net para</a></h4>
+              <time datetime="2020-01-01">Jan 1, 2020</time>
+            </div>
+
+            <div class="post-item clearfix">
+              <img src="assets/img/blog/blog-recent-5.jpg" alt="">
+              <h4><a href="blog-single.html">Et dolores corrupti quae illo quod dolor</a></h4>
+              <time datetime="2020-01-01">Jan 1, 2020</time>
+            </div>
+
+          </div><!-- End sidebar recent posts-->
+
+          
+        </div><!-- End sidebar -->
+
+      </div><!-- End blog sidebar -->
+      <div class="col-lg-8 entries">
+
+      <article class="entry entry-single">
+      <!-- ======= Team Section ======= -->
+      <section id="team" class="team">
+        <div class="container" data-aos="fade-up">
+            <div class="row gy-4">
+                {% for a in wps %}
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member">
+                   
+                        <div class="member-img" >
+                            <a href="">
+                                <img src="{{ asset('assets/img/' ~ a.image) }}" alt="{{ a.image }}" class="img-fluid">
+                            </a>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <a href="">
+                                <h4>{{ (a.nomartiste) }}</h4>
+                            
+                            <span>{{ (a.categorie) }}</span>
+                            <p>{{ (a.description) }}</p>
+                          </a>
+                          <div>
+                            <a href="{{ path('details', {id: a.id}) }}" class=""><i class="">&#x1F50D;</i> Détails</a>
+
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class ="d-flex justify-content-center">
+                    {{knp_pagination_render(wps, 'pagination.html.twig')}}
+                  </div>
+            </div>
+        </div>
+           </section> <!-- End Team Section -->
+      
+     </article><!-- End blog entry -->
+
+      </div><!-- End blog entries list -->
+      
+     
+      
+    
+      
+    </div>
+   
+  </div>
+</section><!-- End Blog Single Section -->
+         
+
+
+
+  
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="{{ asset('js/nouislider.min.js') }}"></script>
+
+  <script src="{{ asset('js/bootstrap-slider.min.js') }}"></script>
+  <script>
+    $(function() {
+      var priceRange = $('#price-range').val().split('-');
+      $('#slider').slider({
+        min: 0,
+        max: 1000,
+        range: true,
+        values: [priceRange[0], priceRange[1]],
+        slide: function(event, ui) {
+          $('#slider-min-value').text(ui.values[0]);
+          $('#slider-max-value').text(ui.values[1]);
+          $('#price-range').val(ui.values[0] + '-' + ui.values[1]);
+        }
+      });
+      $('#slider-min-value').text($('#slider').slider('values', 0));
+      $('#slider-max-value').text($('#slider').slider('values', 1));
+    });
+  </script>
+{% endblock %}
