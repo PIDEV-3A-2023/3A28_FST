@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\AjoutprodType;
+use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -21,14 +22,19 @@ class ProduitController extends AbstractController
     {
         $queryBuilder = $entityManager->getRepository(Produit::class)->createQueryBuilder('p');
         $searchTerm = $request->query->get('query');
+        $sortBy = $request->query->get('sort_by');
     
         if ($searchTerm) {
-            $queryBuilder->where('p.nom LIKE :searchTerm OR p.description LIKE :searchTerm')
+            $queryBuilder->where('p.nom LIKE :searchTerm OR p.description LIKE :searchTerm OR p.prix LIKE :searchTerm')
                 ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
-    
+        if ($sortBy === 'price_asc') {
+            $queryBuilder->orderBy('p.prix', 'ASC');
+        } elseif ($sortBy === 'price_desc') {
+            $queryBuilder->orderBy('p.prix', 'DESC');
+        }
+        
         $query = $queryBuilder->getQuery();
-    
         $pagination = $paginator->paginate(
             $query, // Query results to paginate
             $request->query->getInt('page', 1), // Current page number
@@ -39,46 +45,47 @@ class ProduitController extends AbstractController
             'controller_name' => 'ProduitController',
             'pagination' => $pagination, // Pass the pagination object to the view
             'searchTerm' => $searchTerm, // Pass the search term to the view
+            
         ]);
     }
-/**
- * @param Request $request
- * @Route("ajoutProduit", name="ajoutProduit")
- */
-public function ajoutProduit(Request $request, EntityManagerInterface $entityManager)
-{
-    $produit = new Produit();
-    $form = $this->createForm(AjoutprodType::class, $produit);
-    $form->handleRequest($request);
+            /**
+             * @param Request $request
+             * @Route("ajoutProduit", name="ajoutProduit")
+             */
+            public function ajoutProduit(Request $request, EntityManagerInterface $entityManager)
+            {
+                $produit = new Produit();
+                $form = $this->createForm(AjoutprodType::class, $produit);
+                $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $image = $form->get('image')->getData();
-        if ($image) {
-            $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = $this->generateSafeFilename($originalFilename).'.'.$image->guessExtension();
-            try {
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                // Handle the exception
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $image = $form->get('image')->getData();
+                    if ($image) {
+                        $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                        $newFilename = $this->generateSafeFilename($originalFilename).'.'.$image->guessExtension();
+                        try {
+                            $image->move(
+                                $this->getParameter('images_directory'),
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                            // Handle the exception
+                        }
+                        $produit->setImage($newFilename);
+                    }
+
+                    $entityManager->persist($produit);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Produit ajouté avec succès!');
+
+                    return $this->redirectToRoute('app_produit');
+                }
+
+                return $this->render('produit/ajoutProduit.html.twig', [
+                    'form' => $form->createView(),
+                ]);
             }
-            $produit->setImage($newFilename);
-        }
-
-        $entityManager->persist($produit);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Produit ajouté avec succès!');
-
-        return $this->redirectToRoute('app_produit');
-    }
-
-    return $this->render('produit/ajoutProduit.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
 
         private function generateSafeFilename($originalFilename)
         {
@@ -129,8 +136,39 @@ public function ajoutProduit(Request $request, EntityManagerInterface $entityMan
                 'produit' => $produit,
             ]);
         }
-}
 
+        /**
+             * @Route("/add_to_cart", name="add_to_cart")
+             */
+            public function addToCart(Request $request)
+            {
+                $productId = $request->request->get('getId');
+                $quantity = $request->request->get('getQteStock');
+                
+                $entityManager = $this->getDoctrine()->getManager();
+                $produit= $entityManager->getRepository(Produit::class)->find($productId);
+
+                if (!$produit) {
+                    throw $this->createNotFoundException(
+                        'No product found for id '.$productId
+                    );
+                }
+                
+                $qteStock = $produit->getQtestock();
+                
+                if ($qteStock < $quantity) {
+                    throw new \Exception("Not enough stock.");
+                }
+                
+                $qteStock -= $quantity;
+                $produit->setQtestock($qteStock);
+                $entityManager->flush();
+                
+                return $this->json(['success' => true]);
+        
+        }
+
+}
 
 
 

@@ -1,0 +1,38 @@
+        {% for produit in pagination %}
+            <div class="col-md-2 mb-2">
+                <div class="card" data-product-id="1234">
+                    <img src="uploads/images/{{produit.image}}" alt="{{ produit.nom }}" style="width: 194px; height: 199px; object-fit: cover; border: 1px solid #ccc; box-shadow: 0px 0px 5px #ccc;">
+                    <a href="#" class="heart-icon" style ="position: absolute;
+                          top: 10px;
+                          right: 10px;
+                          padding: 5px;
+                          color: white;"><i class="fa fa-heart"></i></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ produit.nom }}</h5>
+                        <p class="card-text">{{ produit.prix }} DT</p>
+                      <div class="container">
+                        <div class="row justify-content-between">
+                          <div class="col-auto">
+                            <a href="#" class="btn cart-btn" style ="  display: inline-block;
+                              background-color: transparent;
+                              border: 2px;
+                              padding: 0;
+                              "><i class="fas fa-shopping-cart" style ="color: #F6B49C;"></i></a>
+                          </div>
+                              <div class="col-auto">
+                            <a href="{{ path('app_produit_detail', {'id': produit.id}) }}" class="btn more-details-btn" style ="  display: inline-block;
+                              background-color: transparent;
+                              border: 2px;
+                              padding: 0;
+                              "><i class="fas fa-info-circle" style ="color: #F6B49C;"></i></a>
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+     <div class ="d-flex justify-content-center">
+     
+     {{knp_pagination_render(pagination, 'pagination.html.twig')}}
+          </div>

@@ -28,9 +28,15 @@
               <h3>{{ produit.nom }}</h3>
               <ul>
                 <li><strong>Categorie</strong>: {{produit.idctg}}</li>
-                <li><strong>Quantité du produit</strong>: {{produit.qtestock}}</li>
-                <li><strong>Project date</strong>: 01 March, 2020</li>
-                <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
+                <li><strong>Quantité en stock</strong>: {{produit.qtestock}}</li>
+                <li><strong>Quantité du produit vous voulez</strong>: <input type="number" id="quantity" name="quantity" min="1" max="{{produit.qtestock}}" value="1"></li>
+                <button onclick="addToCart({{produit.id}}, document.getElementById('quantity').value)" style=" margin-top : 20px;
+                    margin-left: 120px;
+                    border: 2px solid #ffffff;
+                    background-color: #F6B49C;
+                    color: #ffffff;
+                    padding: 10px 20px;
+                    border-radius: 5px;"  >Add to cart</button>
               </ul>
             </div>
             <div class="portfolio-description">
@@ -40,9 +46,25 @@
               </p>
             </div>
           </div>
-
         </div>
-
       </div>
-    </section><!-- End Portfolio Details Section -->
+    </section>
+        <!-- End Portfolio Details Section -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        function addToCart(productId, quantity) {
+        $.ajax({
+            url: "{{ path('add_to_cart') }}",
+            type: "POST",
+            data: { productId: productId, quantity: quantity },
+            success: function(result) {
+            // Decrement product stock quantity
+            var qteStock = parseInt('{{produit.qtestock}}');
+            qteStock -= parseInt(quantity);
+            document.getElementById('quantity').max = qteStock;
+            '{{produit.qtestock}}' = qteStock;
+            }
+        });
+        }
+</script>
  {% endblock %}

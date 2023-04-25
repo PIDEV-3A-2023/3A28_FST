@@ -5,3 +5,4 @@ ajout_produit:
     path: /ajout-produit
     controller: App\Controller\ProduitController::ajoutProduit
     methods: [GET, POST]
+

@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AjoutprodType extends AbstractType
 {
@@ -15,7 +16,7 @@ class AjoutprodType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('description')
+            ->add('description', TextType::class)
             ->add('prix')
             ->add('image' , FileType::class, [
                 'label' => 'l\'image de votre produit',
