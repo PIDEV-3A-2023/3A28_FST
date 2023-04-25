@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +13,7 @@ use App\Form\UpdateCommentaireType;
 use App\Repository\CommentaireRepository;
 use App\Repository\StatutRepository;
 use Symfony\Component\HttpClient\HttpClient;
+use Twilio\Rest\Client;
 
 
 
@@ -46,10 +45,24 @@ class CommentaireController extends AbstractController
             ]);
 
 
-            
+
             if ($response->getStatusCode() === 200) {
                 $result = $response->toArray();
                 if ($result['is-bad']) {
+                    $sid = "ACd79f74a9650441539cb1a86910aac20f";
+                    $token = "335b8b8baae1ea0e62e38a0f00886cb1";
+                    $client = new Client($sid, $token);
+                        $client->messages->create(
+                            // The number you'd like to send the message to
+                            '+21621601920',
+                            [
+                                // A Twilio phone number you purchased at https://console.twilio.com
+                                'from' => '+16074007909',
+                                // The body of the text message you'd like to send
+                                'body' => "Veuillez respecter les lois de notre site, pas de gros mots!"
+                            ]
+                    );
+              
                     // Handle bad word found
                     $this->addFlash('danger', '</i>Your comment contains inappropriate language and cannot be posted.');
                     return $this->redirectToRoute('bad_words', ['id' => $id]);

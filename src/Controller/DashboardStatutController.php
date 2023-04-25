@@ -38,6 +38,7 @@ class DashboardStatutController extends AbstractController
         return $this->render('dashboard_statut/index.html.twig', [
             'stat' => $pagination,
             'pagination' => $pagination, 
+            
 
 
         ]);

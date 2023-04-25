@@ -81,4 +81,7 @@ class StatutRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
         return $stmt->executeQuery()->fetchAllAssociative();
     }
+
+   
+
 }
