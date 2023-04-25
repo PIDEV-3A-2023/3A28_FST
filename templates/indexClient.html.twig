@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
+
+<head>
+  <style>
+    .bg-custom {
+      background-color: #F6B49C;
+    }
+  </style>
+</head>
 
 
 
@@ -9,14 +16,11 @@
 
    
   <!-- ======= Breadcrumbs ======= -->
-  <section class="breadcrumbs">
+  <section class="breadcrumbs bg-custom">
     <div class="container">
-
-     
-      <h2 class="text-center" >Liste des WORKSHOPS</h2>
-
+        <h2 class="text-center text-white">Liste des<b> WORKSHOPS</b></h2>
     </div>
-  </section><!-- End Breadcrumbs -->
+</section><!-- End Breadcrumbs -->
 
   
 
@@ -29,59 +33,47 @@
 
         <div class="sidebar">
 
-          <h3 class="sidebar-title">Search</h3>
+          <h3 class="sidebar-title" style="color: #000000;">Search</h3>
           
           <div class="sidebar-item search-form">
             <form action="{{ path('search') }}" method="GET">
                 <input type="text" name="query" class="form-control" placeholder="Chercher un workshop...">
-              <button type="submit"><i class="bi bi-search"></i></button>
-            </form>
+                <button type="submit" class="btn btn-primary" style="background-color: #F6B49C;"><i class="bi bi-search"></i></button>
+              </form>
           </div><!-- End sidebar search formn-->
 
 
           <h2 class="sidebar-title" style="color: rgb(2, 11, 15);">FILTRER SELON</h2>
-          <h3 class="sidebar-title">Categories</h3>
-<div class="sidebar-item categories">
-  <form method="get">
-    <select name="categorie">
-      <option value="">Toutes les categories</option>
-      {% for category in categories %}
-        <option value="{{ category }}" {% if selectedCategory == category %}selected{% endif %}>{{ category }}</option>
-      {% endfor %}
-    </select>
-    <h3 class="sidebar-title">Niveau</h3>
-    <select name="niveau">
-        <option value="">Tous les niveaux</option>
-        {% for key, value in niveaux %}
-            <option value="{{ key }}" {% if selectedNiveau == key %}selected{% endif %}>{{ value }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Filtrer</button>
-  </form>
-</div><!-- End sidebar categories-->
-
-
-          <h3 class="sidebar-title">Prix</h3>
-
+          <div class="sidebar-item categories">
+            <form method="get">
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <h3 class="sidebar-title" style="color: #F6B49C;">Categories</h3>
+                <select name="categorie">
+                  <option value="">Toutes les categories</option>
+                  {% for category in categories %}
+                    <option value="{{ category }}" {% if selectedCategory == category %}selected{% endif %}>{{ category }}</option>
+                  {% endfor %}
+                </select>
+                <h3 class="sidebar-title"style="color: #F6B49C;">Niveau</h3>
+                <select name="niveau">
+                  <option value="">Tous les niveaux</option>
+                  {% for key, value in niveaux %}
+                    <option value="{{ key }}" {% if selectedNiveau == key %}selected{% endif %}>{{ value }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" style="background-color: #F6B49C; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); margin-top: 10px;">Filtrer</button>
+              </div>
+            </form>
+          </div><!-- End sidebar categories-->
           
-
-          <div class="form-group">
-            <input type="hidden" id="price-range" name="price_range" value="{{ priceRange }}"/>
-            <div id="slider"></div>
-            <div id="slider-values" class="d-flex justify-content-between">
-              <span id="slider-min-value">{{ priceRange ? priceRange|split('-')[0] : 0 }}</span>
-              <span id="slider-max-value">{{ priceRange ? priceRange|split('-')[1] : 1000 }}</span>
-            </div>
-          </div>
-
-
+          
 
 
 
 
 
           <div id="slider-range"></div>
-          <h3 class="sidebar-title">Most popular Workshops</h3>
+          <h3 class="sidebar-title"style="color: #F6B49C;">Most popular Workshops</h3>
           <div class="sidebar-item recent-posts">
             <div class="post-item clearfix">
               <img src="assets/img/blog/blog-recent-1.jpg" alt="">
@@ -143,13 +135,13 @@
                         </div>
                         <div class="member-info">
                             <a href="">
-                                <h4>{{ (a.nomartiste) }}</h4>
+                                <h4 style="color: #F6B49C;">{{ (a.nomartiste) }}</h4>
                             
                             <span>{{ (a.categorie) }}</span>
                             <p>{{ (a.description) }}</p>
                           </a>
                           <div>
-                            <a href="{{ path('details', {id: a.id}) }}" class=""><i class="">&#x1F50D;</i> Détails</a>
+                            <a href="{{ path('details', {id: a.id}) }}" style="color: #F6B49C;"><i class="">&#x1F50D;</i> Détail</a>
 
                           </div>
                         </div>

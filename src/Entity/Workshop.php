@@ -76,6 +76,7 @@ class Workshop
     private ?string $mots_cles = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "le prix est obligatoire")]
     private ?float $prix = null;
 
     #[ORM\OneToMany(mappedBy: 'workshops', targetEntity: ReservationWorkshop::class)]

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ReservationWorkshop;
 use App\Entity\Workshop;
 use App\Form\WorkshopType;
 use App\Repository\WorkshopRepository;
@@ -15,7 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Config\KnpPaginatorConfig;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 #[Route('/workshop')]
@@ -32,12 +34,8 @@ class WorkshopController extends AbstractController
         $searchTerm = $request->query->get('query');
         $category = $request->query->get('categorie');
         $niveau = $request->query->get('niveau');
-        $priceRange = $request->query->get('price_range');
-       
-        if ($searchTerm) {
-            $queryBuilder->where('w.nom_artiste LIKE :searchTerm OR w.description LIKE :searchTerm OR w.titre LIKE :searchTerm')
-                ->setParameter('searchTerm', '%'.$searchTerm.'%');
-        }
+        
+      
         if ($category) {
             $queryBuilder->andWhere('w.categorie = :category')
                 ->setParameter('category', $category);
@@ -47,13 +45,11 @@ class WorkshopController extends AbstractController
             $queryBuilder->andWhere('w.niveau = :niveau')
                 ->setParameter('niveau', $niveau);
         }
-        if ($priceRange) {
-            $prices = explode('-', $priceRange);
-            $minPrice = $prices[0];
-            $maxPrice = $prices[1];
-            $queryBuilder->andWhere('w.prix >= :minPrice AND w.prix <= :maxPrice')
-                ->setParameter('minPrice', $minPrice)
-                ->setParameter('maxPrice', $maxPrice);
+        
+    
+        if ($searchTerm) {
+            $queryBuilder->where('w.nom_artiste LIKE :searchTerm OR w.description LIKE :searchTerm OR w.prix LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
         
         $query = $queryBuilder->getQuery();
@@ -61,7 +57,7 @@ class WorkshopController extends AbstractController
         $wps = $paginator->paginate(
             $query, // Query results to paginate
             $request->query->getInt('page', 1), // Current page number
-           2 // Number of items per page
+          6 // Number of items per page
         );
         $categories = $entityManager->getRepository(Workshop::class)->findAllCategories();
         $niveaux = [
@@ -78,7 +74,6 @@ class WorkshopController extends AbstractController
             'selectedCategory' => $category,
             'niveaux' => $niveaux,
             'selectedNiveau' => $niveau,
-            'priceRange' => $priceRange
            
         ]);
     }
@@ -87,10 +82,22 @@ class WorkshopController extends AbstractController
 
 
     #[Route('/', name: 'app_workshop_index', methods: ['GET'])]
-    public function index(WorkshopRepository $workshopRepository): Response
+    public function index(EntityManagerInterface $entityManager,WorkshopRepository $workshopRepository,Request $request,PaginatorInterface $paginator): Response
     {
+        $queryBuilder = $entityManager->getRepository(Workshop::class)->createQueryBuilder('r');
+        
+       
+
+        $query = $queryBuilder->getQuery();
+        $rs = $paginator->paginate(
+            $query, // Query results to paginate
+            $request->query->getInt('page', 1), // Current page number
+           6 // Number of items per page
+        );
         return $this->render('workshop/index.html.twig', [
-            'workshops' => $workshopRepository->findAll(),
+            'controller_name' => 'WorkshopController',
+            'rs' => $rs,
+           
         ]);
     }
     #[Route('/admin', name: 'app_workshop', methods: ['GET'])]
@@ -279,9 +286,10 @@ class WorkshopController extends AbstractController
             $query = $request->query->get('query');
 
             if (!$query) {
-                return $this->redirectToRoute('app_workshop1');
+                return $this->redirectToRoute('app_produit');
             }
 
-            return $this->redirectToRoute('app_workshop1', ['query' => $query]);
+            return $this->redirectToRoute('app_produit', ['query' => $query]);
         }
+
 }

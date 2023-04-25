@@ -4,10 +4,20 @@
     .img-resize {
       max-width: 60%;
     }
+    
+    
   </style>
+  <head>
+    <style>
+      .bg-custom {
+        background-color: #F6B49C;
+      }
+    </style>
+  </head>
+  
     <!-- ======= Breadcrumbs ======= -->
-    <section class="breadcrumbs">
-        <div class="container">
+    <section class="breadcrumbs bg-custom">
+        <div class="container " >
   
           <ol>
             <li><a href="index.html">Home</a></li>
@@ -55,7 +65,7 @@
                 <li><strong>Heure de Début</strong>: {{(wss.heuredebut)|date('H:i:s') }}</li>
                 <li><strong>Heure du fin </strong>: {{(wss.heurefin)|date('H:i:s') }}</li>
                 <li><strong>Prix</strong>: {{ wss.prix }} DT</li>
-                <button style="margin-left: 145px;" type="button" class="btn btn-primary btn-assister"><i class="bi bi-calendar-check" ></i> Assister</button>
+                <button style="margin-left: 145px;" type="button" class="btn btn-primary btn-assister "><i class="bi bi-calendar-check" ></i> Assister</button>
 
               </ul>
             </div>

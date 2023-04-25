@@ -1,13 +1,55 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Edit ReservationWorkshop{% endblock %}
-
+ {% extends 'base.html.twig' %}
 {% block body %}
-    <h1>Edit ReservationWorkshop</h1>
+<br>
+<br>
+<br>
+<br>
+<header class="section-header">
+<h2 style="font-size: 27px;" >Ajouter une Réservation</h2>
+</header>
+<div class="container" >
+    {{form_start(fm, {'attr' : {'novalidate':'novalidate'}})}}
+           <div class="form-group">
+           {{form_label(fm.categorie, null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(fm.categorie,{'attr':{'class':'form-control'}})}}
+           <div class="text-danger">{{ form_errors(fm.categorie)}}</div>
+           </div>
 
-    {{ include('reservation_workshop/_form.html.twig', {'button_label': 'Update'}) }}
+           <div class="form-group">
+           {{form_label(fm.date_reservation,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(fm.date_reservation,{'attr':{'class':'form-control'}})}}
+           <div class="text-danger">{{ form_errors(fm.date_reservation)}}</div>
+           </div>
 
-    <a href="{{ path('app_reservation_workshop_index') }}">back to list</a>
+           <div class="form-group">
+           {{form_label(fm.status,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(fm.status,{'attr':{'class':'form-control'}})}}
+            <div class="text-danger">{{ form_errors(fm.status)}}</div>
+           </div>
 
-    {{ include('reservation_workshop/_delete_form.html.twig') }}
-{% endblock %}
+           <div class="form-group">
+           {{form_label(fm.workshops,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(fm.workshops,{'attr':{'class':'form-control'}})}}
+            <div class="text-danger">{{ form_errors(fm.workshops)}}</div>
+           </div>
+
+
+           
+
+            
+                
+            
+           <br>
+          
+            <div class="group-form text-center"> 
+                <button class="btn btn-secondary mt-2 btn-block" href="{{ path('app_reservation_workshop_index') }}">Submit</button>
+             </div>
+
+
+            {{form_end(fm)}}
+ </div>
+<br>
+{% endblock %} 
+
+
+
