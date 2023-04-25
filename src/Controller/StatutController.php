@@ -9,12 +9,11 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Statut;
 use App\Form\StatutType;
+use App\Form\UpdateStatutType;
+
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 
 use Symfony\Component\Routing\Annotation\Route;
 
