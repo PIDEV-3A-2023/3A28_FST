@@ -4,8 +4,9 @@ namespace App\Controller;
 
 
 use App\Entity\Produit;
+use App\Entity\Categorie;
 use App\Form\AjoutprodType;
-use App\Repository\ProduitRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -18,11 +19,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProduitController extends AbstractController
 {
     #[Route('/produit', name: 'app_produit')]
-    public function index(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, CategorieRepository $Catrepo ): Response
     {
         $queryBuilder = $entityManager->getRepository(Produit::class)->createQueryBuilder('p');
         $searchTerm = $request->query->get('query');
         $sortBy = $request->query->get('sort_by');
+        $selectedCategories = $request->query->get('categories', []);
+        $categories = $Catrepo ->findall ();
+
+
+        if (!empty($selectedCategories)) {
+            $queryBuilder->andWhere('p.id_ctg IN (:selectedCategories)');
+            $queryBuilder->setParameter('selectedCategories', $selectedCategories);
+        }
     
         if ($searchTerm) {
             $queryBuilder->where('p.nom LIKE :searchTerm OR p.description LIKE :searchTerm OR p.prix LIKE :searchTerm')
@@ -38,13 +47,15 @@ class ProduitController extends AbstractController
         $pagination = $paginator->paginate(
             $query, // Query results to paginate
             $request->query->getInt('page', 1), // Current page number
-            6 // Number of items per page
+            4 // Number of items per page
         );
     
         return $this->render('produit/index.html.twig', [
             'controller_name' => 'ProduitController',
             'pagination' => $pagination, // Pass the pagination object to the view
             'searchTerm' => $searchTerm, // Pass the search term to the view
+            'categories' => $categories,
+            'selectedCategories' => $selectedCategories,
             
         ]);
     }

@@ -16,7 +16,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 a {
@@ -43,7 +43,7 @@ h6 {
 --------------------------------------------------------------*/
 section {
   padding: 60px 0;
-  overflow: hidden;
+  overflow-y:scroll;
 }
 
 .section-header {
