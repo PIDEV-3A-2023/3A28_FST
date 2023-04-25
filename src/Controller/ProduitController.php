@@ -4,8 +4,8 @@ namespace App\Controller;
 
 
 use App\Entity\Produit;
-use App\Entity\Categorie;
 use App\Form\AjoutprodType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -177,6 +177,19 @@ class ProduitController extends AbstractController
                 
                 return $this->json(['success' => true]);
         
+        }
+
+        /**
+         * @Route("/increment-attribute/{id}", name="increment_attribute")
+         */
+        public function incrementAttribute(Produit $produit): JsonResponse
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $produit->setLikes($produit->getLikes() + 1);
+            $entityManager->persist($produit);
+            $entityManager->flush();
+
+            return new JsonResponse(['like' => $produit->getLikes()]);
         }
 
 }

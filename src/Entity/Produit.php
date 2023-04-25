@@ -36,6 +36,9 @@ class Produit
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?Categorie $id_ctg = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $likes = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,6 +112,18 @@ class Produit
     public function setIdCtg(?categorie $id_ctg): self
     {
         $this->id_ctg = $id_ctg;
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?int $likes): self
+    {
+        $this->likes = $likes;
 
         return $this;
     }

@@ -1,38 +1,66 @@
-        {% for produit in pagination %}
-            <div class="col-md-2 mb-2">
-                <div class="card" data-product-id="1234">
-                    <img src="uploads/images/{{produit.image}}" alt="{{ produit.nom }}" style="width: 194px; height: 199px; object-fit: cover; border: 1px solid #ccc; box-shadow: 0px 0px 5px #ccc;">
-                    <a href="#" class="heart-icon" style ="position: absolute;
-                          top: 10px;
-                          right: 10px;
-                          padding: 5px;
-                          color: white;"><i class="fa fa-heart"></i></a>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ produit.nom }}</h5>
-                        <p class="card-text">{{ produit.prix }} DT</p>
-                      <div class="container">
-                        <div class="row justify-content-between">
-                          <div class="col-auto">
+{% for produit in pagination %}
+    <div class="col-md-2 mb-2">
+        <div class="card" data-product-id="1234">
+            <img src="uploads/images/{{produit.image}}" alt="{{ produit.nom }}" style="width: 194px; height: 199px; object-fit: cover; border: 1px solid #ccc; box-shadow: 0px 0px 5px #ccc;">
+            <a href="#" class="heart-icon" style ="position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px;
+            color: white;" id="heart-icon-{{ produit.id }}"><i class="fa fa-heart"></i></a>
+             <style>
+                .heart-icon:hover {
+                color: red !important;
+                }
+            </style>
+            <div class="card-body">
+                <h5 class="card-title">{{ produit.nom }}</h5>
+                <p class="card-text">{{ produit.prix }} DT</p>
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
                             <a href="#" class="btn cart-btn" style ="  display: inline-block;
-                              background-color: transparent;
-                              border: 2px;
-                              padding: 0;
-                              "><i class="fas fa-shopping-cart" style ="color: #F6B49C;"></i></a>
-                          </div>
-                              <div class="col-auto">
-                            <a href="{{ path('app_produit_detail', {'id': produit.id}) }}" class="btn more-details-btn" style ="  display: inline-block;
-                              background-color: transparent;
-                              border: 2px;
-                              padding: 0;
-                              "><i class="fas fa-info-circle" style ="color: #F6B49C;"></i></a>
-                              </div>
+                            background-color: transparent;
+                            border: 2px;
+                            padding: 0;
+                            "><i class="fas fa-shopping-cart" style ="color: #F6B49C;"></i></a>
                         </div>
-                      </div>
+                        <div class="col-auto">
+                            <a href="{{ path('app_produit_detail', {'id': produit.id}) }}" class="btn more-details-btn" style ="  display: inline-block;
+                            background-color: transparent;
+                            border: 2px;
+                            padding: 0;
+                            "><i class="fas fa-info-circle" style ="color: #F6B49C;"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
-     <div class ="d-flex justify-content-center">
-     
-     {{knp_pagination_render(pagination, 'pagination.html.twig')}}
-          </div>
+        </div>
+    </div>
+
+    <script >
+        // Select the heart icon and add a click event listener to it
+        document.getElementById("heart-icon-{{produit.id}}").addEventListener("click", function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "{{ path('increment_attribute', {'id': produit.id}) }}", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    document.getElementById("heart-icon-{{produit.id}}").innerHTML = "<i class=\"fa fa-heart\"></i> " + data.like;
+                    alert("You've liked this product!");
+                }
+            };
+            xhr.send();
+        });
+    </script>   
+
+{% endfor %}
+
+<div class ="d-flex justify-content-center">
+    {{knp_pagination_render(pagination, 'pagination.html.twig')}}
+</div>
+
+
+
+
+  
