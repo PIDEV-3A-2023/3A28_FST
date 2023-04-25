@@ -10,7 +10,7 @@ use App\Repository\CommentaireRepository;
 use App\Repository\StatutRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\CommentaireType;
+use App\Form\UpdateCommentaireType;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -44,7 +44,7 @@ class DashboardComController extends AbstractController
     {
         $em = $doctrine->getManager();
         $commentaire = $doctrine->getRepository(Commentaire::class)->find($id);
-        $form = $this->createForm(CommentaireType::class, $commentaire);
+        $form = $this->createForm(UpdateCommentaireType::class, $commentaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

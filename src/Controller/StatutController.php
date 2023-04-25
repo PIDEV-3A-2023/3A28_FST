@@ -82,7 +82,7 @@ class StatutController extends AbstractController
     {
         $em = $doctrine->getManager();
         $statut = $doctrine->getRepository(Statut::class)->find($id);
-        $form = $this->createForm(StatutType::class, $statut);
+        $form = $this->createForm(UpdateStatutType::class, $statut);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -44,7 +44,6 @@
 								<th>Contenu</th>
 								<th>Nombre de J'aime</th>
 								<th>Date d'ajout</th>
-								<th>Date de modification</th>
 							</tr>
 						</thead>
 						<tfoot>
@@ -54,7 +53,6 @@
 								<th>Contenu</th>
 								<th>Nombre de J'aime</th>
 								<th>Date d'ajout</th>
-								<th>Date de modification</th>
 							</tr>
 						</tfoot>
 						<tbody>
@@ -67,16 +65,39 @@
 									<td>{{s.contenu}}</td>
 									<td>{{s.nbrLike}}</td>
 									<td>{{s.created|date("d/m/Y")}}</td>
-									<td>{{s.updated|date("d/m/Y")}}</td>
 
 									<td>
-										<a href="{{ path('modifierStatut',{'id':s.id}) }}" class="btn btn-warning">
-											<i class="bi bi-pencil-square"></i>
+										<a href="{{ path('modifierStatut',{'id':s.id}) }}" >
+											<i class="bi bi-pencil-square" style="padding: 3px 12px;
+                margin-left:5px;
+                font-size: 14px;
+                line-height: 1.428571429;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                cursor: pointer;
+                background-image: none;
+                border: 1px solid #F6B49C;
+                border-radius: 4px;
+                color: #fff;
+                background-color: #3CB371;"></i>
 
 										</a>
 
-										<a href="{{ path('removeStatut',{'id':s.id}) }}" class="btn btn-primary">
-											<i class="bi bi-trash3-fill"></i>
+										<a href="{{ path('removeStatut',{'id':s.id}) }}" >
+											<i class="bi bi-trash3-fill" style="padding: 3px 12px;
+                margin-left:5px;
+                font-size: 14px;
+                line-height: 1.428571429;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                cursor: pointer;
+                background-image: none;
+                border: 1px solid #F6B49C;
+                border-radius: 4px;
+                color: #fff;
+                background-color: #ff6347;"></i>
 										</a>
 									</td>
 								</tr>

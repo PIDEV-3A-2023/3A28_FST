@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Statut;
 use App\Form\StatutType;
+use App\Form\UpdateStatutType;
+
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
@@ -45,7 +47,7 @@ class DashboardStatutController extends AbstractController
     {
         $em = $doctrine->getManager();
         $statut = $doctrine->getRepository(Statut::class)->find($id);
-        $form = $this->createForm(StatutType::class, $statut);
+        $form = $this->createForm(UpdateStatutType::class, $statut);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

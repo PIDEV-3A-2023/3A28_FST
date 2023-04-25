@@ -44,6 +44,9 @@ class CommentaireController extends AbstractController
                     'API-Key' => 'WY7zvIuSAw1KTTogtS9X3IGUumCkeSHoPVOEDGPaHGd31ubF',
                 ]
             ]);
+
+
+            
             if ($response->getStatusCode() === 200) {
                 $result = $response->toArray();
                 if ($result['is-bad']) {
