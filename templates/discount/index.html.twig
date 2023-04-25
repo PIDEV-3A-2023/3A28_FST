@@ -1,0 +1,44 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Art Station{% endblock %}
+
+
+{% block body %}
+     <div class="container">
+ </br>  </br>   </br>  </br>  
+            <div class="col-md-6 offset-md-3">
+                 
+
+
+             <div class="text-center">
+  
+  <h1>Promo Verification</h1>
+  </br>
+    <form action="{{ path('promo_verify') }}" method="post">
+        <label for="promo_code">Promo code:</label>
+         </br>  </br>
+        <input type="text" id="promo_code" name="promo_code">
+       
+                   </br>
+  </br>  </br>   <div class="text-center"> <!-- add text-center class to center button -->
+                 
+                <div class="form-group">
+                 <button type="submit" class="btn btn-success btn-block">Verify</button>
+              
+                </div>
+    </div> 
+    </form>
+                </div>
+                  </div>
+              </br>
+  </br>  </br>  
+   
+       
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
