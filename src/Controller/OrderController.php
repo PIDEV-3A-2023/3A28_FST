@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use  Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+
 use App\Entity\Shoppingcart;
 use App\Entity\User;
 use App\Entity\Cartitem;
@@ -31,7 +32,7 @@ class OrderController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('app_gestion_order');
         }
-        return $this->render('order/index.html.twig',   ["form"=>$form]);
+        return $this->render('order/index.html.twig',   [ "form" => $form->createView()]);
     }
 
 

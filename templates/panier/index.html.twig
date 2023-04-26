@@ -39,6 +39,9 @@
                                 <a href="{{ path('app_ligne_panier_plus', {'id': product.id})}}">
                                     <img src="{{ asset('images/plus.png') }}" alt="add product" height="12px">
                                 </a>
+
+
+                                
                             </td>
 
                         
@@ -46,7 +49,9 @@
                             <td>{{ ((product.total) )|number_format(2, ',', '.') }}</td>
                           
 
-
+                            <td>
+                                <a href="{{ path('delete_to_cart', {'id': product.id}) }}"><img src="{{ asset('images/delete.png') }}" alt="delete my product" height="18px"></a>
+                            </td>
 
                         </tr>
                     {% set total = total + product.produit.prix * product.quantity %}

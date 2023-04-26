@@ -60,7 +60,17 @@ class PanierController extends AbstractController
 
 
 
-
+    #[Route('/delete/{id}', name: 'delete_to_cart', methods: ['GET','POST'])]
+    public function deletePanier($id, ManagerRegistry $doctrine):Response
+    {      {$p = $doctrine
+        ->getRepository(Cartitem::class)
+        ->find($id);
+        $em = $doctrine->getManager();
+        $em->remove($p);
+        $em->flush() ;
+        return $this->redirectToRoute('app_panier');
+    }
+    }
 
 
     #[Route('/Add/{id}', name: 'added_to_cart', methods: ['GET','POST'])]

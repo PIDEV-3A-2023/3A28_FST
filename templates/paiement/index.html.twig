@@ -14,13 +14,25 @@
                 </div>
                   </div>
               </br>
-  </br>  </br>  
+
+
+               <!-- Use action="/create-checkout-session.php" if your server is PHP based. -->
+       
+
+
    <div class="text-center"> <!-- add text-center class to center button -->
                  
                 <div class="form-group">
                   <a href="{{ path('app_discount') }}" class="btn btn-success btn-block">code coupant</a>
-                    </br>  </br>  
-                     <a  class="btn btn-success btn-block">acheter</a>
+                    </br> 
+                    
+                     </br>  
+                    <form action="/checkout" method="POST">
+           <button class="btn btn-success btn-block" type="submit">Checkout</button>
+        </form>
+
+  </br>  
+          
                 </div>
     </div> 
 

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use  Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
 
 use App\Form\OrderType;
 class GestionOrderController extends AbstractController
@@ -78,6 +79,40 @@ class GestionOrderController extends AbstractController
           
             "cartitem"=>$shoppingcart->getOrderDetails(),
         ]);
+    }
+
+
+
+
+
+
+    #[Route('/showPdf/{id}', name: 'showPdf')]
+    public function showPdf($id ,EntityManagerInterface $entityManager): Response
+    {
+        $order = $entityManager->getRepository(Shoppingcart::class)->find($id);
+      
+         // Render the Twig template to HTML
+         $html = $this->renderView('pdf.html.twig', [
+            // Pass any required data to the template
+            'data' => $order
+        ]);
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+    
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+    
+        // Render the HTML as PDF
+        $dompdf->render();
+    
+        // Output the generated PDF as response
+        $pdfContent = $dompdf->output();
+        $response = new Response($pdfContent);
+        $response->headers->set('Content-Type', 'application/pdf');
+    
+        return $response;
+    
     }
 
 }
