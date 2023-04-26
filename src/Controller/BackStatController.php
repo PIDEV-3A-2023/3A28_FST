@@ -39,8 +39,22 @@ class BackStatController extends AbstractController
             $data1[] = [$type, $sum];
         }
 
+
+
+
+        // Transform $produits into a format compatible with Google Charts
+        $data2 = [
+            ['Statut', 'Likes'],
+        ];
+
+        foreach ($statuts as $statut) {
+            $data2[] = [$statut->getTitre(), $statut->getNbrLike()];
+        }
+
         return $this->render('back_stat/stats.html.twig', [
             'data1' => $data1,
+            'data2' => $data2,
+
         ]);
     }
 }
