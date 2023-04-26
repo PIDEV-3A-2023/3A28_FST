@@ -64,8 +64,8 @@ class CommentaireController extends AbstractController
                     );
               
                     // Handle bad word found
-                    $this->addFlash('danger', '</i>Your comment contains inappropriate language and cannot be posted.');
-                    return $this->redirectToRoute('bad_words', ['id' => $id]);
+                    $this->addFlash('danger', '</i>Votre commentaire contient de gros mots, il ne peut pas etre posté.');
+                    return $this->redirectToRoute('showcommentaire', ['id' => $id]);
                 } else {
 
                     $em = $this->getDoctrine()->getManager();
