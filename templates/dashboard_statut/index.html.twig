@@ -77,35 +77,35 @@
 									<td>
 										<a href="{{ path('modifierStatut',{'id':s.id}) }}">
 											<i class="bi bi-pencil-square" style="padding: 3px 12px;
-												                margin-left:5px;
-												                font-size: 14px;
-												                line-height: 1.428571429;
-												                text-align: center;
-												                white-space: nowrap;
-												                vertical-align: middle;
-												                cursor: pointer;
-												                background-image: none;
-												                border: 1px solid #F6B49C;
-												                border-radius: 4px;
-												                color: #fff;
-												                background-color: #3CB371;"></i>
+																								                margin-left:5px;
+																								                font-size: 14px;
+																								                line-height: 1.428571429;
+																								                text-align: center;
+																								                white-space: nowrap;
+																								                vertical-align: middle;
+																								                cursor: pointer;
+																								                background-image: none;
+																								                border: 1px solid #F6B49C;
+																								                border-radius: 4px;
+																								                color: #fff;
+																								                background-color: #3CB371;"></i>
 
 										</a>
 
-										<a href="{{ path('removeStatut',{'id':s.id}) }}">
+										<a href="{{ path('removeStatut',{'id':s.id}) }}" onclick="return confirm('Tu veux supprimer ce commentaire?')">
 											<i class="bi bi-trash3-fill" style="padding: 3px 12px;
-												                margin-left:5px;
-												                font-size: 14px;
-												                line-height: 1.428571429;
-												                text-align: center;
-												                white-space: nowrap;
-												                vertical-align: middle;
-												                cursor: pointer;
-												                background-image: none;
-												                border: 1px solid #F6B49C;
-												                border-radius: 4px;
-												                color: #fff;
-												                background-color: #ff6347;"></i>
+																								                margin-left:5px;
+																								                font-size: 14px;
+																								                line-height: 1.428571429;
+																								                text-align: center;
+																								                white-space: nowrap;
+																								                vertical-align: middle;
+																								                cursor: pointer;
+																								                background-image: none;
+																								                border: 1px solid #F6B49C;
+																								                border-radius: 4px;
+																								                color: #fff;
+																								                background-color: #ff6347;"></i>
 										</a>
 									</td>
 								</tr>

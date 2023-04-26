@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,6 +40,7 @@ class CommentaireController extends AbstractController
                 'query' => [
                     'content' => $description
                 ],
+
                 'headers' => [
                     'User-ID' => '22042000',
                     'API-Key' => 'WY7zvIuSAw1KTTogtS9X3IGUumCkeSHoPVOEDGPaHGd31ubF',
@@ -49,24 +52,27 @@ class CommentaireController extends AbstractController
             if ($response->getStatusCode() === 200) {
                 $result = $response->toArray();
                 if ($result['is-bad']) {
+
+
                     $sid = "ACd79f74a9650441539cb1a86910aac20f";
-                    $token = "335b8b8baae1ea0e62e38a0f00886cb1";
+                    $token = "ee10affddbd69c07325423fccb43c7fa";
                     $client = new Client($sid, $token);
-                        $client->messages->create(
-                            // The number you'd like to send the message to
-                            '+21621601920',
-                            [
-                                // A Twilio phone number you purchased at https://console.twilio.com
-                                'from' => '+16074007909',
-                                // The body of the text message you'd like to send
-                                'body' => "Veuillez respecter les lois de notre site, pas de gros mots!"
-                            ]
+                    $client->messages->create(
+                        // The number you'd like to send the message to
+                        '+21621601920',
+                        [
+                            // A Twilio phone number you purchased at https://console.twilio.com
+                            'from' => '+16074007909',
+                            // The body of the text message you'd like to send
+                            'body' => "Veuillez respecter les lois de notre site, pas de gros mots!"
+                        ]
                     );
-              
+
                     // Handle bad word found
-                    $this->addFlash('danger', '</i>Votre commentaire contient de gros mots, il ne peut pas etre posté.');
-                    return $this->redirectToRoute('showcommentaire', ['id' => $id]);
-                } else {
+                    $this->addFlash('danger', '</i>Your comment contains inappropriate language and cannot be posted.');
+                    return $this->redirectToRoute('bad_words', ['id' => $id]);
+                } 
+                else {
 
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($commentaire);
