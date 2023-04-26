@@ -82,6 +82,16 @@ class StatutRepository extends ServiceEntityRepository
         return $stmt->executeQuery()->fetchAllAssociative();
     }
 
+    public function getLikesParType()
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->select('s.type AS type, SUM(s.nbrLike) AS total')
+            ->groupBy('s.type');
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+
    
 
 }

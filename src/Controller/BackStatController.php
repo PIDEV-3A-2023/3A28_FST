@@ -18,14 +18,25 @@ class BackStatController extends AbstractController
     {
         $statuts = $rep->findAll();
 
-        // Transform $produits into a format compatible with Google Charts
-
         $data1 = [
             ['Statut', 'NbrLike'],
         ];
 
+        $sumsByType = [];
+
         foreach ($statuts as $statut) {
-            $data1[] = [$statut->getType(), $statut->getNbrLike()];
+            $type = $statut->getType();
+            $nbrLike = $statut->getNbrLike();
+
+            if (isset($sumsByType[$type])) {
+                $sumsByType[$type] += $nbrLike;
+            } else {
+                $sumsByType[$type] = $nbrLike;
+            }
+        }
+
+        foreach ($sumsByType as $type => $sum) {
+            $data1[] = [$type, $sum];
         }
 
         return $this->render('back_stat/stats.html.twig', [
