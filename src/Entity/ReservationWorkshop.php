@@ -32,6 +32,10 @@ class ReservationWorkshop
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Workshop $workshops = null;
 
+    #[ORM\Column]
+    private ?int $userid = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +112,24 @@ class ReservationWorkshop
 
         return $this;
     }
+
+
+
+
+    public function getUserid(): ?string
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(string $userid): self
+    {
+        $this->userid = $userid;
+
+        return $this;
+    }
+
+
+
 
     public function __construct()
     {

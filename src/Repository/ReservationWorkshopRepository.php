@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\ReservationWorkshop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * @extends ServiceEntityRepository<ReservationWorkshop>
@@ -14,6 +16,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ReservationWorkshop[]    findAll()
  * @method ReservationWorkshop[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
+
+ 
 class ReservationWorkshopRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -39,6 +44,16 @@ class ReservationWorkshopRepository extends ServiceEntityRepository
         }
     }
 
+    
+
+
+
+    
+    
+
+
+
+}
 //    /**
 //     * @return ReservationWorkshop[] Returns an array of ReservationWorkshop objects
 //     */
@@ -63,4 +78,4 @@ class ReservationWorkshopRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-}
+

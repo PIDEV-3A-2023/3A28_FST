@@ -9,15 +9,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PdfGeneratorService;
 
 #[Route('/reservation/workshop')]
 class ReservationWorkshopController extends AbstractController
 {
+
+
+
+   
     #[Route('/', name: 'app_reservation_workshop_index', methods: ['GET'])]
     public function index(ReservationWorkshopRepository $reservationWorkshopRepository): Response
     {
         return $this->render('reservation_workshop/index.html.twig', [
-            'reservation_workshops' => $reservationWorkshopRepository->findAll(),
+            'reservation_workshopss' => $reservationWorkshopRepository->findAll(),
         ]);
     }
 
@@ -75,4 +80,28 @@ class ReservationWorkshopController extends AbstractController
 
         return $this->redirectToRoute('app_reservation_workshop_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/pdf', name: 'generator_service')]
+    
+    public function pdfService(): Response
+    { 
+        $reservation_workshopss= $this->getDoctrine()
+        ->getRepository(ReservationWorkshop::class)
+        ->findAll();
+
+   
+
+        $html =$this->renderView('pdf/index.html.twig', ['reservation_workshopss' => $reservation_workshopss]);
+        $pdfGeneratorService=new PdfGeneratorService();
+        $pdf = $pdfGeneratorService->generatePdf($html);
+
+        return new Response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="document.pdf"',
+        ]);
+       
+    }
+
+    
 }

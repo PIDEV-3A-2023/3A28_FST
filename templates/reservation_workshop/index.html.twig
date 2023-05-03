@@ -32,7 +32,12 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"></h1>
+    <a href="{{ path('generator_service') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+</div>
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tables des Réservations</h1>
 
@@ -63,23 +68,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for s in reservation_workshops  |sort |reverse %}
+                                    {% for serv in reservation_workshopss  |sort |reverse %}
                                         <tr>
                                             
-                                            <td>{{s.categorie}}</td>
+                                            <td>{{serv.categorie}}</td>
                                             
-                                            <td>{{(s.datereservation) ? (s.datereservation)|date('Y-m-d ') : '' }}</td>
-                                            <td>{{s.status }}</td>
+                                            <td>{{(serv.datereservation) ? (serv.datereservation)|date('Y-m-d ') : '' }}</td>
+                                            <td>{{serv.status }}</td>
                                             
-                                            <td>{{s.workshops }}</td>
+                                            <td>{{serv.workshops }}</td>
                                         
                                            
                                       
                                         
                                            
-                                            <td>{{ s.createdAt |date(' d-m-Y H:i:s')}}</td>
-                                            <td>{{ s.updatedAt |date('d-m-Y H:i:s') }}</td>   
-                                            <td> <form action="{{ path('app_reservation_workshop_delete', {'id': s.id}) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                            <td>{{ serv.createdAt |date(' d-m-Y H:i:s')}}</td>
+                                            <td>{{ serv.updatedAt |date('d-m-Y H:i:s') }}</td>   
+                                            <td> <form action="{{ path('app_reservation_workshop_delete', {'id': serv.id}) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this item?');">
        
                                                 <button type="submit" class="btn btn-delete" style="color: #dc3545;" >
                                                     <i class="bi bi-trash"></i> Delete
@@ -87,7 +92,7 @@
                                             </form></td>
 
 
-                                           <td> <form action="{{ path('app_reservation_workshop_edit', {'id': s.id}) }}" method="GET" class="d-inline">
+                                           <td> <form action="{{ path('app_reservation_workshop_edit', {'id': serv.id}) }}" method="GET" class="d-inline">
                                             <button type="submit" class="btn btn-edit" style="color: #007bff;">
                                                 <i class="bi bi-pencil-square"></i>Modifier
                                             </button>

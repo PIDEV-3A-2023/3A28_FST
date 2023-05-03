@@ -16,8 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-
+use Symfony\UX\Chartjs\Model\Chart;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 
 #[Route('/workshop')]
@@ -26,6 +28,106 @@ class WorkshopController extends AbstractController
 
 
 
+    #[Route('/stat', name: 'stat', methods: ['GET'])]
+    public function stats(Request $request): Response
+    {
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $entityManager->getRepository(Workshop::class);
+
+
+        $categorie = $request->query->get('categorie');
+    
+        $categoryData = ['count' => $entityManager->getRepository(Workshop::class)->countBy('categorie', $categorie)];
+
+        $workshopData = [$repository->countReservationsByWorkshop()];
+
+    
+        // Configuration du graphique en camembert pour les catégories
+        $categoryConfig = [
+            'type' => 'pie',
+            'data' => [
+                'datasets' => [
+                    [
+                        'data' => array_values($categoryData),
+                        'backgroundColor' => [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                        ],
+                        'borderColor' => [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        'borderWidth' => 1,
+                    ],
+                ],
+                'labels' => array_keys($categoryData),
+            ],
+            'options' => [
+                'responsive' => true,
+                'title' => [
+                    'display' => true,
+                    'text' => 'Répartition des réservations par catégorie',
+                ],
+            ],
+        ];
+    
+       // Configuration du graphique en aires pour les réservations par atelier
+$workshopConfig = [
+    'type' => 'line',
+    'data' => [
+        'datasets' => array_map(function ($data) {
+            if (isset($data['workshop'])) {
+                return [
+                    'label' => $data['workshop']->getName(),
+                    'data' => array_values($data['count']),
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderColor' => 'rgba(255, 99, 132, 1)',
+                    'borderWidth' => 1,
+                    'fill' => false,
+                ];
+            }
+        }, $workshopData),
+    ],
+    'options' => [
+        'responsive' => true,
+        'title' => [
+            'display' => true,
+            'text' => 'Réservations par atelier',
+        ],
+        'scales' => [
+            'xAxes' => [
+                [
+                    'type' => 'category',
+                    'labels' => array_map(function ($data) {
+                        return $data['workshop']->getName();
+                    }, $workshopData),
+                ],
+            ],
+            'yAxes' => [
+                [
+                    'ticks' => [
+                        'beginAtZero' => true,
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
+        return $this->render('stat.html.twig', [
+            
+            'workshopConfig' => $workshopConfig,
+            'categoryConfig' => $categoryConfig,
+        ]);
+    }
+    
+    
 
     #[Route('/client', name: 'app_workshop1')]
     public function indexxx(EntityManagerInterface $entityManager, Request $request,PaginatorInterface $paginator){
@@ -48,7 +150,7 @@ class WorkshopController extends AbstractController
         
     
         if ($searchTerm) {
-            $queryBuilder->where('w.nom_artiste LIKE :searchTerm OR w.description LIKE :searchTerm OR w.prix LIKE :searchTerm')
+            $queryBuilder->where(' w.categorie LIKE :searchTerm ')
                 ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
         
@@ -69,7 +171,7 @@ class WorkshopController extends AbstractController
         return $this->render('indexClient.html.twig', [
             'controller_name' => 'WorkshopController',
             'wps' => $wps,
-            'searchTerm' => $searchTerm, // Pass the search term to the view
+      
             'categories' => $categories,
             'selectedCategory' => $category,
             'niveaux' => $niveaux,
@@ -87,6 +189,8 @@ class WorkshopController extends AbstractController
         $queryBuilder = $entityManager->getRepository(Workshop::class)->createQueryBuilder('r');
         
        
+        
+
 
         $query = $queryBuilder->getQuery();
         $rs = $paginator->paginate(
@@ -100,6 +204,11 @@ class WorkshopController extends AbstractController
            
         ]);
     }
+
+
+
+
+
     #[Route('/admin', name: 'app_workshop', methods: ['GET'])]
     public function indexAdmin(WorkshopRepository $workshopRepository): Response
     {
@@ -191,6 +300,7 @@ class WorkshopController extends AbstractController
                 $workshop->setImage($newFilename);
             }
             $workshopRepository->save($workshop, true);
+           
 
             return $this->redirectToRoute('app_workshop_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -269,16 +379,21 @@ class WorkshopController extends AbstractController
 
 
     #[Route('details/{id}', name: 'details')]
-    public function details(Request $request, $id){
+    public function details(Request $request, $id , WorkshopRepository $workshopRepository){
         $workshop = $this->getDoctrine()->getRepository(Workshop::class)->find($id);
+        $workshopRepository->sms();
+        $this->addFlash('danger', 'reponse envoyée avec succées');
 
         return $this->render('workshopDetails.html.twig', [
             'wss' => $workshop,
         ]);
     }
 
+  
 
-    /**
+
+    
+      /**
          * @Route("/search", name="search")
          */
         public function search(Request $request): Response
@@ -286,10 +401,9 @@ class WorkshopController extends AbstractController
             $query = $request->query->get('query');
 
             if (!$query) {
-                return $this->redirectToRoute('app_produit');
+                return $this->redirectToRoute('app_workshop1');
             }
 
-            return $this->redirectToRoute('app_produit', ['query' => $query]);
+            return $this->redirectToRoute('app_workshop1', ['query' => $query]);
         }
-
 }

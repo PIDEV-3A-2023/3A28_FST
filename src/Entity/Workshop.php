@@ -82,6 +82,11 @@ class Workshop
     #[ORM\OneToMany(mappedBy: 'workshops', targetEntity: ReservationWorkshop::class)]
     private Collection $reservations;
 
+
+    #[ORM\Column]
+    private ?int $userid = null;
+
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -289,6 +294,26 @@ class Workshop
 
         return $this;
     }
+
+
+
+
+
+    public function getUserid(): ?string
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(string $userid): self
+    {
+        $this->userid = $userid;
+
+        return $this;
+    }
+
+
+
+
 
     /**
      * @return Collection<int, ReservationWorkshop>
