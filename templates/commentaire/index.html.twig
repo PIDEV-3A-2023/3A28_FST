@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+	<main
+		id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+				<h2>Forum</h2>
+
+			</div>
+			
+		</section>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= Blog Single Section ======= -->
+		<section id="blog" class="blog">
+			<div class="container" data-aos="fade-up">
+
+				<div class="row">
+
+					<div class="col-lg-8 entries">
+
+						<article class="entry entry-single" style="text-align: center; background-color: #f3f6ca
+																																																																																																																																																																																																;">
+							<div style="">
+								<a><img src="{{asset('uploads/'~ stat.image)}}" height="300" width="680"></a>
+							</div>
+
+							<h2 class="entry-title">
+								<a href="blog-single.html">{{stat.titre}}</a>
+							</h2>
+
+							<div class="entry-meta">
+								<ul>
+									<li class="d-flex align-items-center">
+										<i class="bi bi-person"></i>
+										<a href="blog-single.html">{{stat.username}}</a>
+									</li>
+									<li class="d-flex align-items-center">
+										<i class="bi bi-clock"></i>
+										<a href="blog-single.html">
+											<time datetime="2020-01-01">{{stat.created|date('Y-m-d')}}</time>
+										</a>
+									</li>
+									<li class="d-flex align-items-center">
+										<i class="bi bi-chat-dots"></i>
+										<a href="blog-single.html">{{com|length()}}</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="entry-content">
+								<p>
+									{{stat.contenu}}
+								</p>
+							</div>
+
+
+						</article>
+						<!-- End blog entry -->
+
+						<!-- End blog author bio -->
+
+						<div class="blog-comments">
+
+							<h4 class="comments-count">{{com|length()}}
+								comments
+							</h4>
+							{% for c in com %}
+
+								<div id="comment-1" class="comment">
+									<div class="d-flex">
+										<div class="comment-img"><img src="{{asset('assets/img/blog/userART.png')}}" alt=""></div>
+										<div>
+											<h5>
+												<a href="">{{c.username}}</a>
+												<a href="{{path('modifier_cmt',{'id':c.id})}}" class="reply">
+													<i class="bi bi-pencil-square"></i>
+												</a>
+												<a href="{{path('supprimer_cmt',{'id':c.id})}}" class="reply">
+													<i class="bi bi-trash3-fill"></i>
+												</a>
+											</h5>
+											<time datetime="2020-01-01">{{c.dateajout|date('Y-m-d')}}</time>
+											<p>
+												{{c.description}}
+											</p>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+							<!-- End comment #1 -->
+
+							<!-- End comment #4 -->
+
+							<div class="reply-form">
+								<h4>Leave a Comment</h4>
+
+								{{ form_start(f, {'attr':{'novalidate':'novalidate'}}) }}
+
+								<div class="row">
+									<div class="col-md-6 form-group">
+										{{ form_label(f.username)}}
+										{{ form_widget(f.username,{'attr':{'class':'form-control'}})}}
+									</div>
+									<div class="col-md-6 form-group">
+										{{ form_label(f.description)}}
+										{{ form_widget(f.description,{'attr':{'class':'form-control'}})}}
+										{{ form_errors(f.description, {'attr': {'class': 'text-danger','placeholder': 'titre'}}) }}
+
+									</div>
+								</div>
+
+
+								<button type="submit" class="btn btn-primary">Commenter
+									<i class="bi bi-plus-square-fill"></i>
+								</button>
+
+								{{ form_end(f) }}
+
+							</div>
+
+						</div>
+						<!-- End blog comments -->
+
+					</div>
+				
+				</div>
+
+			</div>
+		</section>
+		<!-- End Blog Single Section -->
+
+
+	</main>
+
+{% endblock %}

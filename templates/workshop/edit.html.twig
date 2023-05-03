@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<header class="section-header">
+<h2 style="font-size: 27px; color: #F6B49C;" >Modifier votre WORKSHOP</h2>
+</header>
+
+
+<div class="container" >
+    {{form_start(f, {'attr' : {'novalidate':'novalidate'}})}}
+           <div class="form-group">
+           {{form_label(f.titre, null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(f.titre,{'attr':{'class':'form-control'}})}}
+           <div class="text-danger">{{ form_errors(f.titre)}}</div>
+           </div>
+
+           <div class="form-group">
+           {{form_label(f.nom_artiste,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(f.nom_artiste,{'attr':{'class':'form-control'}})}}
+           <div class="text-danger">{{ form_errors(f.nom_artiste)}}</div>
+           </div>
+
+           <div class="form-group">
+           {{form_label(f.duree,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(f.duree,{'attr':{'class':'form-control'}})}}
+            <div class="text-danger">{{ form_errors(f.duree)}}</div>
+           </div>
+
+           <div class="form-group">
+           {{form_label(f.date,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+           {{form_widget(f.date,{'attr':{'class':'form-control'}})}}
+            <div class="text-danger">{{ form_errors(f.date)}}</div>
+           </div>
+
+
+           <div class="form-group">
+            {{form_label(f.etat,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+            {{form_widget(f.etat,{'attr':{'class':'form-control'}})}}
+             <div class="text-danger">{{ form_errors(f.date)}}</div>
+            </div>
+
+
+            <div class="form-group">
+                {{form_label(f.niveau,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+                {{form_widget(f.niveau,{'attr':{'class':'form-control'}})}}
+                 <div class="text-danger">{{ form_errors(f.date)}}</div>
+            </div>
+
+
+           
+                
+           <div class="form-group">
+            {{form_label(f.description,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+            {{form_widget(f.description,{'attr':{'class':'form-control'}})}}
+              <div class="text-danger">{{ form_errors(f.description)}}</div>
+            </div>
+
+            <div class="form-group">
+                {{form_label(f.heure_debut,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+                {{form_widget(f.heure_debut,{'attr':{'class':'form-control'}})}}
+                 <div class="text-danger">{{ form_errors(f.heure_debut)}}</div>
+            </div>
+
+            <div class="form-group">
+                {{form_label(f.heure_fin,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+                {{form_widget(f.heure_fin,{'attr':{'class':'form-control'}})}}
+                 <div class="text-danger">{{ form_errors(f.heure_fin)}}</div>
+            </div>
+
+            <div class="form-group">
+                {{form_label(f.prix,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+                {{form_widget(f.prix,{'attr':{'class':'form-control'}})}}
+                 <div class="text-danger">{{ form_errors(f.prix)}}</div>
+            </div>
+
+            <div class="form-group">
+                {{form_label(f.nb_places,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+                {{form_widget(f.nb_places,
+                    {'attr':{'class':'form-control'}})}}
+                 <div class="text-danger">{{ form_errors(f.nb_places)}}</div>
+            </div>
+
+            <div class="form-group">
+                {{form_label(f.categorie,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+                {{form_widget(f.categorie,{'attr':{'class':'form-control'}})}}
+                 <div class="text-danger">{{ form_errors(f.categorie)}}</div>
+            </div>
+
+            <div class="form-group">
+                {{form_label(f.image,null, {'label_attr': {'class': 'font-weight-bold', 'style': 'font-weight: bold;' }})}}
+                {{form_widget(f.image,{'attr':{'class':'form-control'}})}}
+                 <div class="text-danger">{{ form_errors(f.image)}}</div>
+            </div>
+
+           
+            <div class="group-form text-center"> 
+                <button class="btn btn-secondary mt-2 btn-block"   href="{{ path('app_workshop_index') }}">Update</button>
+             </div>
+                
+             {{form_end(f)}}
+            
+</div>
+           
+{% endblock %} 

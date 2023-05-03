@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+      <!-- ======= Team Section ======= -->
+       <section id="team" class="team" style="background-color: rgb(248, 251, 252);">
+        <div class="container" data-aos="fade-up">
+            <header class="section-header">
+             
+            
+                <br>
+                <br>
+                <h2 style="font-size: 27px; color: #F6B49C;">Your list of workshops</h2>
+                <br>
+                <a href="{{ path('app_workshop_new') }}" class="btn btn-primary" style="background-color: #F6B49C; border-color: #F6B49C;"><i class="bi bi-plus-square"></i> Ajouter un Workshop</a>
+
+
+            </header>
+
+    
+            <div class="row gy-4">
+
+                {% for a in rs %}
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member">
+                   
+                        <div class="member-img" >
+                            <a href="">
+                                <img src="{{ asset('assets/img/' ~ a.image) }}" alt="{{ a.image }}" class="img-fluid">
+                            </a>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <a href="">
+                                <h4 style=" color: #ec7971;">{{ (a.nomartiste) }}</h4>
+                            
+                            <span>{{ (a.categorie) }}</span>
+                            
+                            
+                          </a>
+
+                          <div> 
+                            <form action="{{ path('app_workshop_edit', {'id':a.id}) }}" method="GET" class="d-inline">
+                                <button type="submit" class="btn btn-edit" style="color: #007bff;">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </button>
+                            </form>
+
+                            <form action="{{ path('app_workshop_delete', {'id': a.id}) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this item?');">
+       
+                                <button type="submit" class="btn btn-delete" style="color: #dc3545;" >
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </form>
+                            <!-- {{ include('workshop/_delete_form.html.twig') }} -->
+
+                          </div>
+                         
+                        
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+               
+                {% endfor %}
+
+                <div class ="d-flex justify-content-center" >
+                    {{knp_pagination_render(rs, 'pagination.html.twig')}}
+            </div>
+               
+                  </div>
+                
+        </div>
+    </section> <!-- End Team Section -->
+
+
+
+
+   
+    
+
+    
+{% endblock %}
+

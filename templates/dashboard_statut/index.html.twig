@@ -1,0 +1,131 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+
+	<hr
+		class="sidebar-divider">
+		<!-- Nav Item - Charts -->
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path ('showdashboard')}}">
+				<i class="fas fa-fw fa-chart-area"></i>
+				<span>Statuts</span>
+			</a>
+		</li>
+
+		<!-- Nav Item - Tables -->
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path ('showdashboardcom')}}">
+				<i class="fas fa-fw fa-table"></i>
+				<span>Commentaires</span>
+			</a>
+		</li>
+
+		<!-- Nav Item - Tables -->
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path ('app_back_stat')}}">
+				<i class="fas fa-fw fa-table"></i>
+				<span>Statistiques</span>
+			</a>
+		</li>
+	</hr>
+	<div
+		class="container-fluid">
+
+		<!-- Page Heading -->
+		<h1 class="h3 mb-2 text-gray-800">Gérer les statuts</h1>
+
+		<!-- DataTales Example -->
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">Statut</h6>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Titre</th>
+								<th>Contenu</th>
+								<th>Nombre de J'aime</th>
+								<th>Date d'ajout</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th>Nom</th>
+								<th>Titre</th>
+								<th>Contenu</th>
+								<th>Nombre de J'aime</th>
+								<th>Date d'ajout</th>
+							</tr>
+						</tfoot>
+						<tbody>
+							{% for s in stat %}
+
+								<tr>
+
+									<td>{{s.username}}</td>
+									<td>{{s.titre}}</td>
+									<td>{{s.contenu}}</td>
+									<td>{{s.nbrLike}}</td>
+									<td>{{s.created|date("d/m/Y")}}</td>
+
+									<td>
+										<a href="{{ path('modifierStatut',{'id':s.id}) }}">
+											<i class="bi bi-pencil-square" style="padding: 3px 12px;
+																								                margin-left:5px;
+																								                font-size: 14px;
+																								                line-height: 1.428571429;
+																								                text-align: center;
+																								                white-space: nowrap;
+																								                vertical-align: middle;
+																								                cursor: pointer;
+																								                background-image: none;
+																								                border: 1px solid #F6B49C;
+																								                border-radius: 4px;
+																								                color: #fff;
+																								                background-color: #3CB371;"></i>
+
+										</a>
+
+										<a href="{{ path('removeStatut',{'id':s.id}) }}" onclick="return confirm('Tu veux supprimer ce commentaire?')">
+											<i class="bi bi-trash3-fill" style="padding: 3px 12px;
+																								                margin-left:5px;
+																								                font-size: 14px;
+																								                line-height: 1.428571429;
+																								                text-align: center;
+																								                white-space: nowrap;
+																								                vertical-align: middle;
+																								                cursor: pointer;
+																								                background-image: none;
+																								                border: 1px solid #F6B49C;
+																								                border-radius: 4px;
+																								                color: #fff;
+																								                background-color: #ff6347;"></i>
+										</a>
+									</td>
+								</tr>
+
+							{% endfor %}
+
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+		<!-- Pagination -->
+		<div class="d-flex justify-content-center">
+
+			{{knp_pagination_render(pagination, 'pagination.html.twig')}}
+		</div>
+
+	</div>
+
+
+{% endblock %}

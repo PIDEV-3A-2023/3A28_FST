@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% endblock %}
+
+{% block body %}
+
+	<main
+		id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+
+
+				<h2>Forum</h2>
+
+			</div>
+		</section>
+		<div class="col-lg-4" style="center">
+
+			<h3 class="sidebar-title">search</h3>
+			<div class="sidebar-item search-form">
+
+				<form>
+					<div class="d-flex justify-content-center">
+
+						<input type="text" class="form-control" placeholder="Cherchez un statut..." id="search">
+						<button type="submit"style="padding: 6px 12px;
+                margin-left:5px;
+                font-size: 14px;
+                line-height: 1.428571429;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                cursor: pointer;
+                background-image: none;
+                border: 1px solid #F6B49C;
+                border-radius: 4px;
+                color: #fff;
+                background-color: #F6B49C;">
+							<i class="bi bi-search"></i>
+						</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= Blog Section ======= -->
+		<section id="blog" class="blog">
+			<div class="container" data-aos="fade-up">
+
+				<div id="all">
+					{% include "statut/ajax.html.twig" %}
+				</div>
+
+				<div id="search"></div>
+
+				<!-- End blog entries list -->
+
+
+				<!-- End blog sidebar -->
+
+
+			</div>
+
+		</section>
+		<!-- End Blog Section -->
+
+	</main>
+	{% block ajax %}
+		<script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')}}"></script>
+		<script>
+			$(document).ready(function () {
+var currentRequest = null;
+$("#search").keyup(function (e) {
+var value = $(this).val();
+
+if (currentRequest != null) {
+currentRequest.abort();
+}
+
+currentRequest = $.ajax({
+url: "{{ path('rechajax') }}",
+type: 'GET',
+data: {
+'searchValue': value
+
+},
+success: function (retour) {
+$('#all').html(retour);
+}
+});
+return false;
+});
+});
+		</script>
+	{% endblock %}
+
+{% endblock %}

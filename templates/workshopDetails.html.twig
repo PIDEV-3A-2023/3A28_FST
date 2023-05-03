@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<style>
+    .img-resize {
+      max-width: 60%;
+    }
+    
+    
+  </style>
+  <head>
+    <style>
+      .bg-custom {
+        background-color: #F6B49C;
+      }
+    </style>
+  </head>
+  
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs bg-custom">
+        <div class="container " >
+  
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li>Workshop Details</li>
+          </ol>
+          <h2>Workshop Details</h2>
+  
+        </div>
+      </section><!-- End Breadcrumbs -->
+
+
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row">
+             
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide"  style="margin-left: 70px;">
+                    <img src="{{ asset('assets/img/' ~ wss.image) }}" class="img-fluid img-resize">
+                </div>
+
+              
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4  " style="margin-left: -100px;">
+            <div class="portfolio-info" style=" width: 450px; height: 450px;">
+              <h3>Workshop Information</h3>
+              <ul>
+                <li><strong>Titre</strong>: {{ wss.titre }}</li>
+                <li><strong>Nom de l'artiste</strong>: {{ (wss.nomartiste) }}</li>
+                <li><strong>Date du Workshop</strong>: {{ wss.date |date('d/m/Y')  }}</li>
+                <li><strong>Description</strong>: {{ wss.description }}</li>
+                <li><strong>Durée du Workshop</strong>: {{ wss.duree }} Minutes</li>
+                <li><strong>Niveau d'apprentissage</strong>: {{ wss.niveau }}</li>
+                <li><strong>Heure de Début</strong>: {{(wss.heuredebut)|date('H:i:s') }}</li>
+                <li><strong>Heure du fin </strong>: {{(wss.heurefin)|date('H:i:s') }}</li>
+                <li><strong>Prix</strong>: {{ wss.prix }} DT</li>
+                <button style="margin-left: 145px;" type="button" class="btn btn-primary btn-assister" onclick="sms('details')"><i class="bi bi-calendar-check"></i> Assister</button>
+
+                
+                  
+
+                              </ul>
+            </div>
+            
+          </div>
+        
+        </div>
+      </div>
+    </section><!-- End Portfolio Details Section -->
+    {% endblock %}

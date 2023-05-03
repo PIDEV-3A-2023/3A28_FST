@@ -1,0 +1,48 @@
+ <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                          
+                                            <td>Categorie</td>
+                                            <td> date_reservation </td>
+                                            <td> status</td>
+                                            <td> workshop </td>
+                                            
+                                        
+
+                                            <td> createdAt </td>
+                                            <td> updatedAt </td>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for serv in reservation_workshops  |sort |reverse %}
+                                        <tr>
+                                            
+                                            <td>{{serv.categorie}}</td>
+                                            
+                                            <td>{{(serv.datereservation) ? (serv.datereservation)|date('Y-m-d ') : '' }}</td>
+                                            <td>{{serv.status }}</td>
+                                            
+                                            <td>{{serv.workshops }}</td>
+                                        
+                                           
+                                      
+                                        
+                                           
+                                            <td>{{ serv.createdAt |date(' d-m-Y H:i:s')}}</td>
+                                            <td>{{ serv.updatedAt |date('d-m-Y H:i:s') }}</td>   
+                                           
+       
+                                                
+                                            </form></td>
+
+
+                                           
+                                        </form></td> 
+
+
+                                            
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>

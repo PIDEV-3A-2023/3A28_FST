@@ -4,3 +4,7 @@
 search_events:
   path: /search
   controller: App\Controller\EvenementController::search
+
+ajax_search:
+  path: /search
+  controller: App\Controller\statutController::search
