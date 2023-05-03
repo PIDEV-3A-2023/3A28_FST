@@ -17,7 +17,7 @@ class GestioncategorieController extends AbstractController
 {
     #[Route('/gestioncategorie', name: 'app_gestioncategorie')]
     public function index(EntityManagerInterface $entityManager): Response
-    {
+    {  
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         return $this->render('gestioncategorie/index.html.twig', [
             'controller_name' => 'GestioncategorieController',

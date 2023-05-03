@@ -94,7 +94,6 @@ class GestionProduitController extends AbstractController
         
                 $this->addFlash('success', 'Produit ajouté avec succès!');
         
-                return $this->redirectToRoute('app_gestion_produit');
             }
 
             return $this->render('gestion_produit/ajoutprod.html.twig', [

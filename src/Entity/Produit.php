@@ -38,6 +38,9 @@ class Produit
     #[ORM\Column(nullable: true)]
     private ?int $likes = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $userid = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +126,18 @@ class Produit
     public function setLikes(?int $likes): self
     {
         $this->likes = $likes;
+
+        return $this;
+    }
+
+    public function getUserid(): ?int
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(?int $userid): self
+    {
+        $this->userid = $userid;
 
         return $this;
     }
