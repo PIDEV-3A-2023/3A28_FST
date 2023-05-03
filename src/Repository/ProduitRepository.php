@@ -39,6 +39,19 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+        /**
+     * Returns the count of products in each category
+     */
+    public function getProductCountByCategory()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('c.nom_ctg as nom, COUNT(p.id) as produit_count')
+            ->join('p.id_ctg', 'c')
+            ->groupBy('c.id')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */

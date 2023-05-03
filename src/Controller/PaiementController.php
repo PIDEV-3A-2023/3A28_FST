@@ -85,6 +85,6 @@ public function successUrl(SessionInterface $session1,EntityManagerInterface $en
 #[Route('/cancel-url', name: 'cancel_url')]
 public function cancelUrl(): Response
 {
-    return $this->render('cancel.html.twig', []);
+    return $this->render('paiement/cancel.html.twig', []);
 }
 }

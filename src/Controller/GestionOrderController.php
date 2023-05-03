@@ -92,7 +92,7 @@ class GestionOrderController extends AbstractController
         $order = $entityManager->getRepository(Shoppingcart::class)->find($id);
       
          // Render the Twig template to HTML
-         $html = $this->renderView('pdf.html.twig', [
+         $html = $this->renderView('gestion_order/pdf.html.twig', [
             // Pass any required data to the template
             'data' => $order
         ]);

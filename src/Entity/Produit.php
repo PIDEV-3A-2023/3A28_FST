@@ -3,23 +3,27 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
+
 class Produit
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message :"le nom est obligatoire")]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message :"donnez une petite description de votre produit")]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message :"le prix est obligatoire")]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255)]
@@ -28,8 +32,11 @@ class Produit
     #[ORM\Column]
     private ?int $qte_stock = null;
 
-    #[ORM\Column]
-    private ?int $id_ctg = null;
+    #[ORM\ManyToOne(inversedBy: 'produits')]
+    private ?Categorie $id_ctg = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $likes = null;
 
     public function getId(): ?int
     {
@@ -96,14 +103,26 @@ class Produit
         return $this;
     }
 
-    public function getIdCtg(): ?int
+    public function getIdCtg(): ?categorie
     {
         return $this->id_ctg;
     }
 
-    public function setIdCtg(int $id_ctg): self
+    public function setIdCtg(?categorie $id_ctg): self
     {
         $this->id_ctg = $id_ctg;
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?int $likes): self
+    {
+        $this->likes = $likes;
 
         return $this;
     }

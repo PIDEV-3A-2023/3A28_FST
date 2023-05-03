@@ -8,7 +8,7 @@ use App\Entity\Produit;
 use App\Entity\Shoppingcart;
 #[ORM\Entity(repositoryClass: CartitemRepository::class)]
 class Cartitem
-{
+{  
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
