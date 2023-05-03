@@ -20,8 +20,7 @@ use Endroid\QrCodeBundle\Controller\QrCodeController;
 use Endroid\QrCode\Writer\DataUriWriter;
 use Endroid\QrCode\Writer\PngWriter;
 use App\Entity\Resevation;
-
-
+use Symfony\Component\Security\Core\Security;
 
 class EvenementController extends AbstractController
 {
@@ -128,7 +127,7 @@ class EvenementController extends AbstractController
 
     #[Route('/generate_qr_code/{id}', name: 'qrCode')]
 
-    public function generateQrCodeAction(QrcodeService $qrcodeService, Evenement $evenement, ResevationRepository $repo_r)
+    public function generateQrCodeAction(QrcodeService $qrcodeService, Evenement $evenement, ResevationRepository $repo_r,Security $security)
     {
 
 
@@ -145,7 +144,7 @@ class EvenementController extends AbstractController
     
             //Remplir la table réservation (affecter le user à cette evenement)
             $reservation->setEventId($evenement);
-            $reservation->setUserId(1);
+            $reservation->setUserId(intval($security->getUser()->getId()));
 
         if ($nbPlaces > 0) {
             $entityManager->persist($reservation);
@@ -193,16 +192,19 @@ class EvenementController extends AbstractController
         return new JsonResponse(['success' => true]);
     }
     #[Route('/annuler/{id}', name: 'annuler')]
-    public function annuler(Evenement $evenement, ResevationRepository $repo_r, $id)
+    public function annuler(Evenement $evenement, ResevationRepository $repo_r, $id, Security $security)
     {
         $event = $this->getDoctrine()->getRepository(Evenement::class)->find($id);
 
+        $userId = $security->getUser()->getId();
+       
+        
         // id user et id ev dans tables reservation
         // $user = $this->getDoctrine()->getRepository(User::class)->find(1);
 
         $reservation = $this->getDoctrine()->getRepository(Resevation::class)->findBy([
             'event_Id' => $event,
-            'user_Id' => 1,
+            'user_Id' => $userId ,
         ]);
         $em = $this->getDoctrine()->getManager();
         $em->remove($reservation[0]);

@@ -8,3 +8,8 @@ search_events:
 ajax_search:
   path: /search
   controller: App\Controller\statutController::search
+
+admin_search:
+    path: /search
+    controller: App\Controller\GestionUserController::admin
+    methods: ['GET', 'POST'] 
