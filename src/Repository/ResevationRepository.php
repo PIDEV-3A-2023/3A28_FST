@@ -38,6 +38,15 @@ class ResevationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByEvent($value): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.event_Id = :val')
+            ->setParameter('val', $value)
+
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Resevation[] Returns an array of Resevation objects

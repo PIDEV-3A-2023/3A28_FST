@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search Results
+{% endblock %}
+
+{% block body %}
+	<section id="services" class="services">
+
+
+		<div class="container">
+			<header class="section-header">
+				<h2>Search Results</h2>
+				<p>Here are the results for your search:</p>
+			</header>
+			<div class="row gy-4">
+				{% if evenements|length == 0 %}
+					<div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
+						<p>No results found.</p>
+					</div>
+				{% else %}
+					{% for evenement in evenements %}
+						<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+							<div class="service-box blue">
+								<img src="assets/img/{{evenement.image }}" alt="" style="width: 75px; height: 75;">
+								<h3>{{ evenement.titre }}</h3>
+								<p>{{ evenement.description }}</p>
+								<p>{{evenement.prix}}</p>
+								<a href="{{ path('details', {'id': evenement.id}) }}" class="read-more">
+									<span>Read More</span>
+									<i class="bi bi-arrow-right"></i>
+								</a>
+							</div>
+						</div>
+					{% endfor %}
+
+				{% endif %}
+			</div>
+		</div>
+	</section>
+{% endblock %}

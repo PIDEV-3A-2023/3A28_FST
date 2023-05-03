@@ -1,53 +1,143 @@
 {% extends 'base.html.twig' %}
 
 
-
-
 {% block title %}ArtStation
 {% endblock %}
 
+
 {% block body %}
 
-<section class="breadcrumbs">
-	<div class="container">
-<h2 style="  color:white ">Details</h2>
 
-	</div>
-</section>
+	<section class="breadcrumbs">
+		<div class="container">
+			<h2 style="color:white">Details</h2>
+		</div>
+	</section>
 
-
-<div class="container">
-	<div class="row">
-		<div class="col-md-6 offset-md-3">
-
-			<h1>{{ event.titre }}</h1>
-
-
+	{% if event.nbPlace	 <= 0  %}
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 offset-md-3">
+					<h1>{{ event.titre }}</h1>
 					<p>{{ event.description }}</p>
-					<p>Date Début:
-						{{ event.dateDebut|date('d/m/Y') }}</p>
-					<p>Date Fin:
-						{{ event.dateFin|date('d/m/Y') }}</p>
-					<p>Prix:
-						{{ event.prix }}</p>
-					<p>nombre de places:
-						{{ event.nbPlace }}</p>
+					<p>Date Début:{{ event.dateDebut|date('d/m/Y') }}</p>
+					<p>Date Fin:{{ event.dateFin|date('d/m/Y') }}</p>
+					<p>Prix:{{ event.prix }}</p>
+					<p>nombre de places:{{ event.nbPlace }}</p>
+					<p>Lieu:{{ event.localisation }}</p>
+					<a class="btn btn-danger" href="{{ path('annuler', {'id': event.id}) }}">Annuler</a>
+
+					<div class="col-md-6">
+						{% if qrCode is defined and qrCode is not empty %}
+							<img src="{{ qrCode }}" alt="QR Code">
 
 
+						{% endif %}
+					</div>
 
-					<p>Lieu:
-						{{ event.localisation }}</p>
-							<a class="btn btn-warning" href="{{ path('feedback',{'id': event.id}) }}">
-								<span>donner votre feedback</span>
 
-							</a>
-							<a class="btn btn-warning" href="{{ path('update', {'id': event.id}) }}">Update</a>
-							<a class="btn btn-danger" href="{{ path('delete', {'id': event.id}) }}">Delete</a>
+				</div>
+			</div>
+		</div>
 
-		
-		</div>	
-	</div>
-</div>
+		<center>
+			<span class="alert danger-alert">PAS D'autre PLACES !!</span>
+		</center>
 
+	{% else %}
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 offset-md-3">
+					<h1>{{ event.titre }}</h1>
+					<p>{{ event.description }}</p>
+					<p>Date Début:{{ event.dateDebut|date('d/m/Y') }}</p>
+					<p>Date Fin:{{ event.dateFin|date('d/m/Y') }}</p>
+					<p>Prix:{{ event.prix }}</p>
+					<p>nombre de places:{{ event.nbPlace }}</p>
+					<p>Lieu:{{ event.localisation }}</p>
+					<a class="btn btn-warning" href="{{ path('feedback',{'id': event.id}) }}">
+						<span>Donner votre feedback</span>
+					</a>
+					<a class="btn btn-warning" href="{{ path('update', {'id': event.id}) }}">Update</a>
+					<a class="btn btn-danger" href="{{ path('delete', {'id': event.id}) }}">Delete</a>
+					<a class="btn btn-success" href="{{ path('qrCode', {'id': event.id}) }}">reserver</a>
+					<a class="btn btn-danger" href="{{ path('annuler', {'id': event.id}) }}">Annuler</a>
+
+					<div class="col-md-6">
+						{% if qrCode is defined and qrCode is not empty %}
+							<img src="{{ qrCode }}" alt="QR Code">
+
+
+						{% endif %}
+					</div>
+					<div class="col-md-6">
+						<p>Rating:
+							<span id="rating-number">{{ event.rating }}</span>
+							(<span id="rating-number-votes">{{ event.ratingNumber }}</span>
+							votes)</p>
+						<div id="rating-stars">
+							{% for i in 1..5 %}
+								{% if i <= event.rating %}
+									<span class="fa fa-star checked"></span>
+								{% else %}
+									<span class="fa fa-star"></span>
+								{% endif %}
+							{% endfor %}
+						</div>
+						<button class="btn btn-success" id="rate" data-event-id="{{ event.id }}">Rate</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://kit.fontawesome.com/a6bfca9e92.js" crossorigin="anonymous"></script>
+
+
+		<script>
+			$(document).ready(function () {
+$('#rate').click(function () {
+var rating = $('#rating-stars .checked').length;
+var eventId = $(this).data('event-id');
+$.ajax({
+url: '{{ path('rate_event', {'id': event.id}) }}',
+type: 'POST',
+data: {
+eventId: eventId,
+rating: rating
+},
+success: function (response) {
+alert('Thank you for rating this event!');
+// Update rating and ratingNumber
+var newRating = response.rating;
+var newRatingNumber = response.ratingNumber;
+// Update HTML to display new rating and stars
+$('#rating-number').text(newRating);
+$('#rating-number-votes').text(newRatingNumber);
+$('#rating-stars').empty();
+for (var i = 1; i <= 5; i++) {
+if (i <= newRating) {
+$('#rating-stars').append('<span class="fa fa-star checked"></span>');
+} else {
+$('#rating-stars').append('<span class="fa fa-star"></span>');
+}
+}
+}
+});
+});
+
+$('#rating-stars').on('click', '.fa-star', function () {
+$(this).prevAll().addBack().addClass('checked');
+$(this).nextAll().removeClass('checked');
+});
+
+console.log(jQuery.fn.jquery);
+console.log('JavaScript code is running');
+});
+		</script>
+
+	{% endif %}
 
 {% endblock %}

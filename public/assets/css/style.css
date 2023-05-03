@@ -2395,3 +2395,11 @@ section {
   font-size: 13px;
   color: #012970;
 }
+.fa-star {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.fa-star.checked {
+  color: #ffdd00;
+}

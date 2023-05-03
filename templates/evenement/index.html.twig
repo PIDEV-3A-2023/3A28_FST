@@ -1,50 +1,117 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ArtStation{% endblock %}
+{% block title %}ArtStation
+{% endblock %}
 
 
 {% block body %}
 
 
-<section id="services" class="services">
+	<section id="services" class="services">
 
-	<div class="container" data-aos="fade-up">
+		<div class="container" data-aos="fade-up">
 
-		<header class="section-header">
-			<h2>Events</h2>
-			<p>VOICI TOUT LES EVENTS DISPONIBLES!</p>
-		</header>
+			<header class="section-header">
+				<h2>Events</h2>
+				<form id="search-form" action="{{ path('search_events') }}" method="get">
+					<input type="text" id="search-input" name="search" placeholder="Search..." style="
+												                padding: 6px 12px;
+												                font-size: 14px;
+												                line-height: 1.428571429;
+												                color: #555;
+												                background-color: #fff;
+												                background-image: none;
+												                border: 1px solid #ccc;
+												                border-radius: 4px;
+												                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+												                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);">
+					<button type="submit" style="padding: 6px 12px;
+																							                margin-left:5px;
+																							                font-size: 14px;
+																							                line-height: 1.428571429;
+																							                text-align: center;
+																							                white-space: nowrap;
+																							                vertical-align: middle;
+																							                cursor: pointer;
+																							                background-image: none;
+																							                border: 1px solid #5969f3;
+																							                border-radius: 4px;
+																							                color: #fff;
+																							                background-color: #5969f3;">
+						Search</button>
 
-		<div class="row gy-4">
-                    {% for data in list %}
+				</form>
+				<p>VOICI TOUT LES EVENTS DISPONIBLES!</p>
+				<div>
+
+					<a class="btn btn-success" href="{{ path('app_calendar') }}" style="background-color: #2db6fa;border: 1px solid #2db6fa;">Calendrier</a>
+
+
+				</div>
+
+			</header>
+
+			<div class="row gy-4">
+				{% for data in list %}
 
 					<div class="col-lg-4 col-md-6 " data-aos="fade-up" data-aos-delay="200">
 
-					<div class="service-box blue">
-						<img src="assets/img/{{data.image }}" alt="" style="width: 75px; height: 75;">
-                        <h3>{{data.titre}}</h3>
-                        <p>{{data.id}}</p>
-						<p>{{data.description}}</p>
-                        <a href="{{ path('details', {'id': data.id}) }}" class="read-more">
-						<span>Read More</span>
-						<i class="bi bi-arrow-right"></i>
-						</a>
+						<div class="service-box blue">
+							<img src="assets/img/{{data.image }}" alt="" style="width: 75px; height: 75;">
+							<h3>{{data.titre}}</h3>
+							<p>{{data.id}}</p>
+							<p>{{data.description}}</p>
+							<p>{{data.prix}}</p>
+							<a href="{{ path('details', {'id': data.id}) }}" class="read-more">
+								<span>Read More</span>
+								<i class="bi bi-arrow-right"></i>
+							</a>
+						</div>
 					</div>
-			 </div>
-                {% endfor %}
+				{% endfor %}
 
-			
+
+			</div>
 
 		</div>
 
-	</div>
 
-
-
-</section>
-
-
-
+	</section>
 {% endblock %}
+{% block javascripts %}
+	<script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js') }}"></script>
+	<script src="https://kit.fontawesome.com/a6bfca9e92.js" crossorigin="anonymous"></script>
 
 
+	<script>
+		$(document).ready(function () {
+$('#search-form').submit(function (e) {
+e.preventDefault();
+var query = $('#search-input').val();
+$.ajax({
+url: '{{ path('search_events') }}',
+type: 'get',
+data: {
+search: query
+},
+success: function (response) {
+console.log('Success!');
+console.log(response);
+$('#events-container').html(response);
+}
+});
+});
+});
+	</script>
+	<script>
+		$(document).ready(function () {
+$('a[href^="     {{ path('events_list') }}"]').click(function (e) {
+e.preventDefault();
+console.log('Link clicked!'); // add this line
+$('#events-form input[name="sort"]').val($(this).attr('href').split('?')[1]);
+$('#events-form input[name="sort_order"]').val($(this).attr('href').split('=')[2]);
+$('#events-form').submit();
+});
+});
+	</script>
+{% endblock %}

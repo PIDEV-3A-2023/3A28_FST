@@ -34,6 +34,7 @@ class Evenement
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: "la date est obligatoire")]
+    #[Assert\LessThan(propertyPath: "dateFin", message: "La date de début doit être avant la date de fin")]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -42,6 +43,7 @@ class Evenement
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "le prix est obligatoire")]
+    #[Assert\PositiveOrZero(message: "le prix ne peut pas être négatif")]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -53,6 +55,7 @@ class Evenement
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "le nombre des places est obligatoire")]
+    #[Assert\PositiveOrZero(message: "le nbPlaces ne peut pas être négatif")]
     private ?int $nbPlace = null;
 
     #[ORM\Column(nullable: true)]
