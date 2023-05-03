@@ -16,6 +16,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+
 
 class StatutController extends AbstractController
 {
@@ -30,9 +32,8 @@ class StatutController extends AbstractController
             'last' => $last,
         ]);
     }
-
     #[Route('/statut/add', name: 'addstatut')]
-    public function addstatut(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response
+    public function addstatut(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger, Security $security): Response
     {
         $em = $doctrine->getManager();
         $statut = new Statut();
@@ -55,6 +56,9 @@ class StatutController extends AbstractController
             }
             $statut->setNbrLike(0);
             $statut->setCreated(new \DateTime("now"));
+            $userId = $security->getUser()->getUsername();
+            $statut->setUsername($userId);
+
             $em->persist($statut);
             $em->flush();
             return $this->redirectToRoute('showstatut');

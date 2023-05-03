@@ -16,13 +16,14 @@ use App\Repository\CommentaireRepository;
 use App\Repository\StatutRepository;
 use Symfony\Component\HttpClient\HttpClient;
 use Twilio\Rest\Client;
+use Symfony\Component\Security\Core\Security;
 
 
 
 class CommentaireController extends AbstractController
 {
     #[Route('/commentaire/fetch/{id}', name: 'showcommentaire')]
-    public function index(CommentaireRepository $repo_c, StatutRepository $repo, $id, ManagerRegistry $doctrine, Request  $request): Response
+    public function index(CommentaireRepository $repo_c, StatutRepository $repo, $id, ManagerRegistry $doctrine, Request$request, Security $security): Response
     {
         $em = $doctrine->getManager();
         $commentaire = new Commentaire();
@@ -33,6 +34,8 @@ class CommentaireController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $commentaire->setIdS($statut);
             $commentaire->setDateAjout(new \DateTime("now"));
+            $userId = $security->getUser()->getUsername();
+            $commentaire->setUsername($userId);
             //filter bad words 
             $description = $commentaire->getDescription();
             $httpClient = HttpClient::create();

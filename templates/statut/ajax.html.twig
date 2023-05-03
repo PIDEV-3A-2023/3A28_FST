@@ -1,151 +1,37 @@
-<div class="row">
 
-	<div class="col-lg-8 entries">
-		{% for s in stat %}
 
-			<article class="entry" style="text-align: center; background-color: #eff1d4
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																;">
-				<div style="">
-					<a><img src="{{asset('uploads/'~ s.image)}}" height="300" width="680"></a>
-				</div>
-				<h2 class="entry-title">
-					<a href="blog-single.html">{{s.titre}}</a>
-				</h2>
-				<div class="entry-meta">
-					<ul>
-						<li class="d-flex align-items-center">
-							<i class="bi bi-person"></i>
-							<a href="blog-single.html">{{s.username}}</a>
-						</li>
-						<li class="d-flex align-items-center">
-							<i class="bi bi-clock"></i>
-							<a href="blog-single.html">
-								<time datetime="2020-01-01">{{s.created|date('d-m-Y')}}</time>
-							</a>
-						</li>
-						<li class="d-flex align-items-center">
-							<i class="bi bi-chat-square-heart"></i>
-							<a href="blog-single.html">{{s.nbrLike}}</a>
-						</li>
-					</ul>
-				</div>
-				<div class="entry-content">
-					<p>
-						{{s.contenu}}
-					</p>
-					<div class="read-more mx-2" >
-						<a href="{{path('showcommentaire',{'id':s.id})}}">Lire Plus</a>
-					</div>
-					<div class="d-flex justify-content-center">
+{% block javascript %}
+<script>
+const likeButton = document.querySelector('.like-button');
+let isLiked = false;
+let nbrLike = parseInt(document.querySelector('.nbr-like').textContent);
 
-						<div class="center">
-
-							<a href="{{path('removestatut',{'id':s.id})}}">
-								<i class="bi bi-trash3-fill" style="padding: 6px 12px;
-                margin-left:5px;
-                font-size: 14px;
-                line-height: 1.428571429;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                cursor: pointer;
-                background-image: none;
-                border: 1px solid #F6B49C;
-                border-radius: 4px;
-                color: #fff;
-                background-color: #F6B49C;"></i>
-
-							</a>
-
-						</div>
-						<div class="class">
-							<a href="{{path('updatestatut',{'id':s.id})}}">
-								<i class="bi bi-pencil-square"style="padding: 6px 12px;
-                margin-left:5px;
-                font-size: 14px;
-                line-height: 1.428571429;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                cursor: pointer;
-                background-image: none;
-                border: 1px solid #F6B49C;
-                border-radius: 4px;
-                color: #fff;
-                background-color: #F6B49C;"></i>
-							</a>
-						</div>
-						<div class="center">
-							<a href="{{path('likes',{'id':s.id})}}">
-								<i class="bi bi-heart-fill" style="padding: 6px 12px;
-                margin-left:5px;
-                font-size: 14px;
-                line-height: 1.428571429;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                cursor: pointer;
-                background-image: none;
-                border: 1px solid #F6B49C;
-                border-radius: 4px;
-                color: #fff;
-                background-color: #F6B49C;"></i>
-							</a>
-						</div>
-					</div>
-				</div>
-			</article>
-		{% endfor %}
-		<!-- End blog entry -->
-	</div>
-	<div class="col-lg-4">
-		<div class="sidebar">
-			<br>
-			<!-- End sidebar search formn-->
-			<h3 class="sidebar-title">Exprimez-vous !
-				<a class="read-more" href="{{path('addstatut')}}">
-					<i class="bi bi-plus-square-fill"></i>
-				</a>
-			</h3>
-			<br>
-			<h3 class="sidebar-title">Explorez les différents types de sujets</h3>
-			<div class="sidebar-item categories">
-				<ul>
-					<li><a href="{{path('filtretype',{'type':'Poterie'})}}"><span>Poterie</span></a></li>
-				</ul>
-			</div>
-			<div class="sidebar-item categories">
-				<ul>
-					<li><a href="{{path('filtretype',{'type':'Musique'})}}"><span>Musique</span></a></li>
-				</ul>
-			</div>
-			<div class="sidebar-item categories">
-				<ul>
-					<li><a href="{{path('filtretype',{'type':'Sculpture'})}}"><span>Sculpture</span></a></li>
-				</ul>
-			</div>
-			<div class="sidebar-item categories">
-				<ul>
-					<li><a href="{{path('filtretype',{'type':'StreetArt'})}}"><span>StreetArt</span></a></li>
-				</ul>
-			</div>
-			<div class="sidebar-item categories">
-				<ul>
-					<li><a href="{{path('filtretype',{'type':'Peinture'})}}"><span>Peinture</span></a></li>
-				</ul>
-			</div>
-			<h3 class="sidebar-title">Recent Posts</h3>
-			{% for l in last %}
-				<div class="sidebar-item recent-posts">
-					<div class="post-item clearfix">
-						<h4>
-							<a href="#">{{l.titre}}</a>
-						</h4>
-						<time datetime="2020-01-01">{{l.created|date('d-m-Y')}}</time>
-					</div>
-				</div>
-			{% endfor %}
-		</div>
-		<!-- End sidebar -->
-	</div>
-</div>
+likeButton.addEventListener('click', function() {
+  const statutId = likeButton.getAttribute('data-statut-id');
+  
+  if (isLiked) {
+    // Appeler la méthode "dislikes" pour décrémenter le nombre de likes.
+    fetch(`/statut/dislikes/${statutId}`)
+      .then(response => {
+        // Décrémenter le nombre de likes dans le DOM.
+        nbrLike--;
+        document.querySelector('.nbr-like').textContent = nbrLike;
+        // Mettre à jour l'état du bouton "like".
+        isLiked = false;
+        likeButton.classList.remove('liked');
+      });
+  } else {
+    // Appeler la méthode "likes" pour incrémenter le nombre de likes.
+    fetch(`/statut/likes/${statutId}`)
+      .then(response => {
+        // Incrémenter le nombre de likes dans le DOM.
+        nbrLike++;
+        document.querySelector('.nbr-like').textContent = nbrLike;
+        // Mettre à jour l'état du bouton "like".
+        isLiked = true;
+        likeButton.classList.add('liked');
+      });
+  }
+});
+</script>
+{% endblock %}
