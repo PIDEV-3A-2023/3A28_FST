@@ -12,7 +12,7 @@ class Reclamation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id ;
 
     #[ORM\Column]
     private ?int $userId = null;
@@ -23,7 +23,7 @@ class Reclamation
     #[ORM\Column(length: 755)]
     private ?string $plainte = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
     public function __construct()

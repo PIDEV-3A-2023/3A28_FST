@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Knp\Component\Pager\PaginatorInterface;
-
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Config\KnpPaginatorConfig;
 
 class ReclamationController extends AbstractController
@@ -40,23 +41,32 @@ class ReclamationController extends AbstractController
     }
 
     // client seulement 
-    #[Route('/reclamation/add', name: 'addReclam')]
-    public function addReclamation(Request $request, Security $security)
 
+    #[Route('/reclamation/add', name: 'addReclam')]
+    public function addReclamation(Request $request, Security $security, CsrfTokenManagerInterface $csrfTokenManager)
     {  
-         $reclamation = new Reclamation();
-         //$reclamation->setUserid(intval($security->getUser()->getId()));
-         $form = $this->createForm(ReclamType::class, $reclamation);
+        $reclamation = new Reclamation();
+
+        $reclamation->setUserid(intval($security->getUser()->getId()));
+        
+        $form = $this->createForm(ReclamType::class, $reclamation);
         $form->handleRequest($request);
-        if($form->isSubmitted()&& $form->isValid()){
+    
+        $token = new CsrfToken('reclam', $request->request->get('_token'));
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump("ok");
             $em = $this->getDoctrine()->getManager();
             $em->persist($reclamation);
             $em->flush();
+            $em->refresh($reclamation);
+            dump($reclamation->getId());
             return $this->redirectToRoute('app_profile');
-            
         }
-        return $this->render("reclamation/addReclam.html.twig",
-        array('form'=>$form->createView()));
+    
+        return $this->render('reclamation/addReclam.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
     //admin
 
