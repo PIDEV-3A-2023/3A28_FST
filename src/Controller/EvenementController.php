@@ -87,7 +87,7 @@ class EvenementController extends AbstractController
         $em->remove($data);
         $em->flush();
         $this->addFlash('notice', ' udelete Submitted');
-        return $this->redirectToRoute('app_evenement');
+        return $this->redirectToRoute('app_back');
     }
     #[Route('/details/{id}', name: 'details')]
     public function details(Request $request, $id)

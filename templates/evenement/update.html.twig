@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseBack.html.twig' %}
 {% block body %}
 	<div class="container">
 		<div class="row">
 
-			<h3 class="mt-5 mb-5">Create Form</h3>
+			
 			{% for message in app.flashes('notice') %}
 				<div classe="alert alert-success">
 					{{message}}

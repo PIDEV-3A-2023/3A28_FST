@@ -65,7 +65,7 @@ class StatutController extends AbstractController
         }
         return $this->renderForm('statut/ajoutstatut.html.twig', [
             'f' => $form,
-            
+
         ]);
     }
 
