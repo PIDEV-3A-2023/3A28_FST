@@ -381,13 +381,13 @@
       {{ form_widget(form.Validate, { 'attr': {'class': 'btn btn-primary btn-user btn-block'} }) }}
     </div>
 
-    <div class="col-md-6">
-      <button class="btn btn-primary btn-block" href = {{ path('addReclam', parameters = []) }}>Reclamation</button>
-    </div>
+
   </div>
 
   {{ form_end(form) }}
-
+    <div class="col-md-6">
+      <a class="btn btn-primary btn-block" href = {{ path('addReclam') }}>Reclamation</a>
+    </div>
   <hr>
 
 </div>

@@ -24,18 +24,15 @@ class ProfileController extends AbstractController
     #[Security('is_granted("ROLE_USER")')]
     #[Route('/profile', name: 'app_profile')]
     public function updateUser(Request $request)
-    {
+    {  
         $userrr = $this->getUser();
-        $user = new User();
-
-        $form = $this->createForm(UserType::class, $user);
-
+        $form = $this->createForm(UserType::class, $userrr);
+        $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted()) {
-            $password = $request->request->get('password');
-            $userrr->setPassword($this->passwordEncoder->encodePassword($user, $password));
+            $userrr->setPassword($this->passwordEncoder->encodePassword($userrr, $userrr->getPassword()));       
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
@@ -46,7 +43,7 @@ class ProfileController extends AbstractController
 
         return $this->render('profile/index.html.twig', [
             'form' => $form->createView(),
-            'usertab' => $user
+            'usertab' => $userrr
         ]);
     }
 }
