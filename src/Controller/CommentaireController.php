@@ -58,7 +58,7 @@ class CommentaireController extends AbstractController
 
 
                     $sid = "ACd79f74a9650441539cb1a86910aac20f";
-                    $token = "ee10affddbd69c07325423fccb43c7fa";
+                    $token = "2a98fcaa3f391afe0f330ee1ffa28960";
                     $client = new Client($sid, $token);
                     $client->messages->create(
                         // The number you'd like to send the message to

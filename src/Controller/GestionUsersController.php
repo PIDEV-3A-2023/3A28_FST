@@ -33,7 +33,7 @@ class GestionUsersController extends AbstractController
         return $this->render('gestion_users/index.html.twig', array("users" => $users));
     }
     #[Route('/gestion/users/{search}', name: 'search')]
-    public function search( Request $request,$search)
+    public function search($search)
     {
         
             

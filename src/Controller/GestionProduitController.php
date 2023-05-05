@@ -23,7 +23,7 @@ class GestionProduitController extends AbstractController
     {
         $query = $entityManager->getRepository(Produit::class)->createQueryBuilder('p')->getQuery();
 
-        
+
         $produits = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1), /*page number*/
@@ -36,86 +36,87 @@ class GestionProduitController extends AbstractController
     }
 
 
-    #[Route("/delete/{id}", name:'deleteProduit')]
-    public function delete($id, ManagerRegistry $doctrine)
-    {$p = $doctrine
-        ->getRepository(Produit::class)
-        ->find($id);
+    #[Route("/deleteProduit/{id}", name: 'deleteProduit')]
+    public function deleteProduit($id, ManagerRegistry $doctrine)
+    {
+        $p = $doctrine
+            ->getRepository(Produit::class)
+            ->find($id);
         $em = $doctrine->getManager();
         $em->remove($p);
-        $em->flush() ;
+        $em->flush();
         return $this->redirectToRoute('app_gestion_produit');
     }
 
-    #[Route('/update/{id}', name: 'updateProduit')]
-    public function  updateProduit(ManagerRegistry $doctrine,$id,  Request  $request) : Response
-    { $produit = $doctrine
-        ->getRepository(Produit::class)
-        ->find($id);
+    #[Route('/updateProduit/{id}', name: 'updateProduit')]
+    public function  updateProduit(ManagerRegistry $doctrine, $id,  Request  $request): Response
+    {
+        $produit = $doctrine
+            ->getRepository(Produit::class)
+            ->find($id);
         $form = $this->createForm(ModifproduitType::class, $produit);
-        $form->add('Modifier', SubmitType::class) ;
+        $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        { $em = $doctrine->getManager();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('app_gestion_produit');
         }
-        return $this->renderForm("gestion_produit/update.html.twig",
-            ["form"=>$form]) ;
-
-
+        return $this->renderForm(
+            "gestion_produit/update.html.twig",
+            ["form" => $form]
+        );
     }
 
 
-        #[Route('/ajout/produitad', name: 'ajoutProduitad')]
-        public function ajoutProduit(Request $request, EntityManagerInterface $entityManager)
-        { $produit = new Produit();
-            $form = $this->createForm(AjoutprodType::class, $produit);
-            $form->handleRequest($request);
-        
-            if ($form->isSubmitted() && $form->isValid()) {
-                $image = $form->get('image')->getData();
-                if ($image) {
-                    $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                    $newFilename = $this->generateSafeFilename($originalFilename).'.'.$image->guessExtension();
-                    try {
-                        $image->move(
-                            $this->getParameter('images_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // Handle the exception
-                    }
-                    $produit->setImage($newFilename);
+    #[Route('/ajout/produitad', name: 'ajoutProduitad')]
+    public function ajoutProduit(Request $request, EntityManagerInterface $entityManager)
+    {
+        $produit = new Produit();
+        $form = $this->createForm(AjoutprodType::class, $produit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $this->generateSafeFilename($originalFilename) . '.' . $image->guessExtension();
+                try {
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Handle the exception
                 }
-        
-                $entityManager->persist($produit);
-                $entityManager->flush();
-        
-                $this->addFlash('success', 'Produit ajouté avec succès!');
-        
+                $produit->setImage($newFilename);
             }
 
-            return $this->render('gestion_produit/ajoutprod.html.twig', [
-                'form' => $form->createView(),
-            ]);
+            $entityManager->persist($produit);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Produit ajouté avec succès!');
         }
 
-        private function generateSafeFilename($originalFilename)
-        {
-            // Remove any non-alphanumeric characters from the filename
-            $filename = preg_replace('/[^a-zA-Z0-9]/', '-', $originalFilename);
+        return $this->render('gestion_produit/ajoutprod.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
-            // Remove any consecutive dashes
-            $filename = preg_replace('/-{2,}/', '-', $filename);
+    private function generateSafeFilename($originalFilename)
+    {
+        // Remove any non-alphanumeric characters from the filename
+        $filename = preg_replace('/[^a-zA-Z0-9]/', '-', $originalFilename);
 
-            // Remove any leading or trailing dashes
-            $filename = trim($filename, '-');
+        // Remove any consecutive dashes
+        $filename = preg_replace('/-{2,}/', '-', $filename);
 
-            // Add a unique ID to the filename to ensure it's unique
-            $newFilename = $filename.'-'.uniqid();
+        // Remove any leading or trailing dashes
+        $filename = trim($filename, '-');
 
-            return $newFilename;
-        }
+        // Add a unique ID to the filename to ensure it's unique
+        $newFilename = $filename . '-' . uniqid();
 
+        return $newFilename;
+    }
 }
