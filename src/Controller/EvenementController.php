@@ -21,6 +21,11 @@ use Endroid\QrCode\Writer\DataUriWriter;
 use Endroid\QrCode\Writer\PngWriter;
 use App\Entity\Resevation;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use App\Repository\EvenementRepository;
+use DateTime;
 
 class EvenementController extends AbstractController
 {
@@ -127,7 +132,7 @@ class EvenementController extends AbstractController
 
     #[Route('/generate_qr_code/{id}', name: 'qrCode')]
 
-    public function generateQrCodeAction(QrcodeService $qrcodeService, Evenement $evenement, ResevationRepository $repo_r,Security $security)
+    public function generateQrCodeAction(QrcodeService $qrcodeService, Evenement $evenement, ResevationRepository $repo_r, Security $security)
     {
 
 
@@ -141,10 +146,10 @@ class EvenementController extends AbstractController
         $id = $evenement->getId();
         $reservations = $repo_r->findByEvent($id);
 
-    
-            //Remplir la table réservation (affecter le user à cette evenement)
-            $reservation->setEventId($evenement);
-            $reservation->setUserId(intval($security->getUser()->getId()));
+
+        //Remplir la table réservation (affecter le user à cette evenement)
+        $reservation->setEventId($evenement);
+        $reservation->setUserId(intval($security->getUser()->getId()));
 
         if ($nbPlaces > 0) {
             $entityManager->persist($reservation);
@@ -155,18 +160,14 @@ class EvenementController extends AbstractController
 
             $evenement->setNbPlace($nbPlaces - 1);
             $entityManager->flush();
-
-
-        }
-        else {
+        } else {
             $nbPlaces = 0;
-
         }
         //Retourner msg d'erreur ( dsl pas assez de places)
         return $this->render('evenement/details.html.twig', [
             'event' => $evenement,
             'qrCode' => $qrCode,
-            
+
         ]);
     }
     #[Route('/event/{id}/rate', name: 'rate_event')]
@@ -197,14 +198,14 @@ class EvenementController extends AbstractController
         $event = $this->getDoctrine()->getRepository(Evenement::class)->find($id);
 
         $userId = $security->getUser()->getId();
-       
-        
+
+
         // id user et id ev dans tables reservation
         // $user = $this->getDoctrine()->getRepository(User::class)->find(1);
 
         $reservation = $this->getDoctrine()->getRepository(Resevation::class)->findBy([
             'event_Id' => $event,
-            'user_Id' => $userId ,
+            'user_Id' => $userId,
         ]);
         $em = $this->getDoctrine()->getManager();
         $em->remove($reservation[0]);
@@ -217,5 +218,79 @@ class EvenementController extends AbstractController
         return $this->render('evenement/details.html.twig', [
             'event' => $event,
         ]);
+    }
+    /*************************JSON********************************/
+    #[Route("/AllEvents", name: "list")]
+    public function getEvenements(EvenementRepository $repo, SerializerInterface $serializer)
+    {
+        $evenements = $repo->findAll();
+
+        $json = $serializer->serialize($evenements, 'json', ['groups' => "evenements"]);
+
+        //* Nous renvoyons une réponse Http qui prend en paramètre un tableau en format JSON
+        return new Response($json);
+    }
+
+    #[Route("/Evenement/{id}", name: "evenement")]
+    public function EvenementId($id, NormalizerInterface $normalizer, EvenementRepository $repo)
+    {
+        $evenement = $repo->find($id);
+        $evenementNormalises = $normalizer->normalize($evenement, 'json', ['groups' => "evenements"]);
+        return new Response(json_encode($evenementNormalises));
+    }
+
+
+    #[Route("addEvenementJSON/new", name: "addEvenementJSON")]
+    public function addEvenementJSON(Request $req,   NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $evenement = new Evenement();
+        $evenement->setTitre($req->get('titre'));
+        $evenement->setLocalisation($req->get('localisation'));
+        $evenement->setDescription($req->get('description'));
+        $evenement->setDateDebut(new DateTime($req->get('dateDebut')));
+        $evenement->setDateFin(new DateTime($req->get('dateFin')));
+        $evenement->setPrix($req->get('prix'));
+        $evenement->setImage($req->get('image'));
+        $evenement->setNbPlace($req->get('nbPlace'));
+        $em->persist($evenement);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($evenement, 'json', ['groups' => 'evenements']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    #[Route("updateEvenementJSON/{id}", name: "updateEvenementJSON")]
+    public function updateEvenementJSON(Request $req, $id, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $em->getRepository(Evenement::class)->find($id);
+        $evenement->setTitre($req->get('titre'));
+        $evenement->setLocalisation($req->get('localisation'));
+        $evenement->setDescription($req->get('description'));
+        $evenement->setDateDebut(new DateTime($req->get('dateDebut')));
+        $evenement->setDateFin(new DateTime($req->get('dateFin')));
+        $evenement->setPrix($req->get('prix'));
+        $evenement->setImage($req->get('image'));
+        $evenement->setNbPlace($req->get('nbPlace'));
+
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($evenement, 'json', ['groups' => 'evenements']);
+        return new Response("Evenement updated successfully " . json_encode($jsonContent));
+    }
+
+    #[Route("deleteEvenementJSON/{id}", name: "deleteEvenementJSON")]
+    public function deleteEvenementJSON(Request $req, $id, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $em->getRepository(Evenement::class)->find($id);
+        $em->remove($evenement);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($evenement, 'json', ['groups' => 'evenements']);
+        return new Response("Evenement deleted successfully " . json_encode($jsonContent));
     }
 }

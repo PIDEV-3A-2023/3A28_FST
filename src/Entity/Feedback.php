@@ -5,6 +5,7 @@ namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\FeedbackRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FeedbackRepository::class)]
 class Feedback
@@ -12,13 +13,16 @@ class Feedback
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("feedbacks")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("feedbacks")]
     #[Assert\NotBlank(message: "le text est obligatoire")]
     private ?string $text = null;
 
     #[ORM\ManyToOne(inversedBy: 'feedback')]
+    #[Groups("feedbacks")]
     private ?Evenement $id_Ev = null;
 
     public function getId(): ?int

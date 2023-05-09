@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -15,56 +16,70 @@ class Evenement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("evenements")]
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups("evenements")]
     private ?float $rating = 0;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "le titre est obligatoire")]
+    #[Groups("evenements")]
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "la localisation est obligatoire")]
+    #[Groups("evenements")]
     private ?string $localisation = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "la description est obligatoire")]
+    #[Groups("evenements")]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: "la date est obligatoire")]
     #[Assert\LessThan(propertyPath: "dateFin", message: "La date de début doit être avant la date de fin")]
+    #[Groups("evenements")]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: "la date est obligatoire")]
+    #[Groups("evenements")]
     private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "le prix est obligatoire")]
     #[Assert\PositiveOrZero(message: "le prix ne peut pas être négatif")]
+    #[Groups("evenements")]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    
+    #[Groups("evenements")]
+
     private ?string $image = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups("evenements")]
     private ?string $categorie = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "le nombre des places est obligatoire")]
     #[Assert\PositiveOrZero(message: "le nbPlaces ne peut pas être négatif")]
+    #[Groups("evenements")]
     private ?int $nbPlace = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups("evenements")]
     private ?int $ratingNumber = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups("evenements")]
     private ?string $points = null;
 
     #[ORM\OneToMany(mappedBy: 'id_Ev', targetEntity: Feedback::class)]
+    #[Groups("evenements")]
     private Collection $feedback;
 
     #[ORM\OneToMany(mappedBy: 'event_Id', targetEntity: Resevation::class)]

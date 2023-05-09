@@ -12,20 +12,22 @@ use App\Repository\EvenementRepository;
 use App\Repository\FeedbackRepository;
 
 use  Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Serializer\SerializerInterface;
+
 class FeedbackController extends AbstractController
 {
-   
+
     #[Route('/feedback/{id}', name: 'feedback')]
     public function index(FeedbackRepository $repo_f, EvenementRepository $repo, $id, ManagerRegistry $doctrine, Request  $request): Response
     {
         $em = $doctrine->getManager();
         $feedback = new Feedback();
         $form = $this->createForm(FeedbackType::class, $feedback);
-        $event= $repo->find($id);
+        $event = $repo->find($id);
         $feedbacks = $repo_f->findByEvent($event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $feedback->setIdEv($event);
             $em->persist($feedback);
             $em->flush();
@@ -64,5 +66,15 @@ class FeedbackController extends AbstractController
         $em->flush();
         $this->addFlash('notice', ' delete Submitted');
         return $this->redirectToRoute('feedback', ['id' => $data->getIdEv()->getId()]);
+    }
+    ////JSOOOON////
+    #[Route('/Allfeedback/{id}', name: 'feedback')]
+    public function allFeed(FeedbackRepository $repo_f, EvenementRepository $repo, $id, SerializerInterface $serializer): Response
+    {
+        $event = $repo->find($id);
+        $feedbacks = $repo_f->findByEvent($event);
+        $json = $serializer->serialize($feedbacks, 'json', ['groups' => "feedbacks"]);
+
+        return new Response($json);
     }
 }
